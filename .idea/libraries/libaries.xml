@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="libaries">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Dropbox/TGM/4CHIT/INSY/libaries/commons-cli-2.0.jar!/" />
+      <root url="jar://$USER_HOME$/Dropbox/TGM/4CHIT/INSY/libaries/mysql-connector-java-5.1.34/mysql-connector-java-5.1.34-bin.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
