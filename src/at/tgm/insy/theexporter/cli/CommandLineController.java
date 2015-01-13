@@ -6,7 +6,6 @@ import org.apache.commons.cli2.builder.DefaultOptionBuilder;
 import org.apache.commons.cli2.builder.GroupBuilder;
 import org.apache.commons.cli2.commandline.Parser;
 import org.apache.commons.cli2.util.HelpFormatter;
-import org.apache.commons.cli2.validation.FileValidator;
 
 
 /**
@@ -335,29 +334,18 @@ public class CommandLineController {
      * @return Option for the output file
      */
     private Option buildOutputFile() {
-        FileValidator fileValidator = FileValidator.getExistingFileInstance();
-        // Path must lead to a file
-        fileValidator.setDirectory(false);
-        fileValidator.setFile(true);
-
-        // Path must be writable
-        fileValidator.setWritable(true);
-
-
         return optionBuilder
                 .withLongName("outputfile")
                 .withShortName("of")
                 .withRequired(false)
-                .withDescription("Specify a path as well as a name to the file in which the result-set shall be written to.\n" +
-                                "Please note: The file must be a text file, must be writable and the path must exist.\n" +
-                                "Example:\n C:\\HansPeter\\Desktop\\output.txt\n"
+                .withDescription("Set a name for the file in which the output will be created\nExample: output.txt"
                 )
                 .withArgument(
                         argumentBuilder
                                 .withName("file path")
                                 .withMinimum(1)
                                 .withMaximum(1)
-                                .withValidator(fileValidator)
+                                        //.withValidator(fileValidator)
                                 .create()
                 )
                 .create();

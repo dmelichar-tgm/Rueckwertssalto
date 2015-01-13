@@ -29,6 +29,7 @@ public class FileOutput {
 
         try {
             // File and PrintWriter
+            System.out.println(System.getProperty("user.dir"));
             File f = new File(commandLineController.getOutputFile());
             PrintWriter os = new PrintWriter(f);
 

@@ -44,7 +44,5 @@ public final class SchemacrawlerTest {
                 }
             }
         }
-
     }
-
 }
