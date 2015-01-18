@@ -25,21 +25,6 @@ public abstract class Connection {
     /* METHODS */
 
     /**
-     * Checks if the syntax of the request sent 
-     * * to the Database is valid.
-     *
-     * @param query The query that shall be checked
-     * @return Is the query valid
-     */
-    public static boolean checkQuery(String query) {
-        /*
-            TODO
-            Idea: stackoverflow.com/questions/10247106/
-         */
-        return true;
-    }
-
-    /**
      * Every time one wants to connect to a specific Database, he/she will have
      * to overwrite this method to suit the Database type. It will return
      * a DataSource Object which can then be used
@@ -82,54 +67,49 @@ public abstract class Connection {
      * Please note that the guidelines of checkQuery() must be followed.
      * @param query The query that shall be executed
      * @return A table with the results of the query
-     * @throws java.sql.SQLException
+     * @throws java.sql.SQLException SQL Exception
      */
     public DefaultTableModel sendQuery(String query) throws SQLException {
-        if (checkQuery(query)) {   // Check the query before doing anything
-            // Establish a statement and save the results of the executed query
-            Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery(query);
+        // Establish a statement and save the results of the executed query
+        Statement st = connection.createStatement();
+        ResultSet rs = st.executeQuery(query);
 
             /*
             Save the meta data for later usage.
             For instance, you can see what tables are defined in the database, and what columns each table has,
             whether given features are supported etc.
             */
-            this.metaData = rs.getMetaData();
-            DefaultTableModel model = new DefaultTableModel();
-            int columnCount = metaData.getColumnCount();
+        this.metaData = rs.getMetaData();
+        DefaultTableModel model = new DefaultTableModel();
+        int columnCount = metaData.getColumnCount();
 
             /*
             Saves the column names of the selected database into the
             TableModel as table-header.
              */
-            String[] columnNames = new String[columnCount];
-            for (int column = 1; column <= columnCount; column++) {
-                columnNames[column - 1] = metaData.getColumnName(column);
-            }
-            model.setColumnIdentifiers(columnNames);
+        String[] columnNames = new String[columnCount];
+        for (int column = 1; column <= columnCount; column++) {
+            columnNames[column - 1] = metaData.getColumnName(column);
+        }
+        model.setColumnIdentifiers(columnNames);
 
             /*
             Saves each value of each row into the DefaultTableModel
             (basically transfers everything from one table to another)
              */
-            while (rs.next()) {
-                String[] temp = new String[columnCount];
-                for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
-                    temp[columnIndex - 1] = rs.getString(columnIndex);
-                }
-                model.addRow(temp);
+        while (rs.next()) {
+            String[] temp = new String[columnCount];
+            for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+                temp[columnIndex - 1] = rs.getString(columnIndex);
             }
-
-            // Close the connections
-            rs.close();
-            st.close();
-
-            return model;
-        } else {
-            // If the query is incorrect, an exception will be thrown.
-            throw new SQLException("Incorrect Syntax! \n");
+            model.addRow(temp);
         }
+
+        // Close the connections
+        rs.close();
+        st.close();
+
+        return model;
     }
 
     /**
@@ -145,7 +125,7 @@ public abstract class Connection {
     }
 
     /* GETTER & SETTER */
-  public ResultSetMetaData getMetaData() {
+    public ResultSetMetaData getMetaData() {
         return this.metaData;
     }
 }

@@ -28,7 +28,7 @@ public class ConnectionFactory {
         if (type.equalsIgnoreCase("mysql")) {
             con = new MySQLConnection();
         } else {
-            throw new IllegalArgumentException("Unsupported Database");
+            System.out.println("Unsupported Database");
         }
 
         return con;

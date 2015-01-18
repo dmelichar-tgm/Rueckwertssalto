@@ -43,7 +43,7 @@ public class ConsoleOutput {
             
             connection.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Warning: SQL Exception found: " +e.getMessage());
         }
     }
 

@@ -10,8 +10,8 @@ public class Main {
 
     /**
      * Main Method of the Application.
-     * Calls upon the Output Controller with a CommandLineController 
-     * @param args Console arguments
+     * Calls upon the Output Controller with a CommandLineController*
+     * @param args Arguments given in the commandline
      */
     public static void main(String[] args) {
         new OutputController(new CommandLineController(args));

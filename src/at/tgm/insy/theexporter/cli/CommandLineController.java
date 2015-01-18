@@ -480,7 +480,8 @@ public class CommandLineController {
                 }
             } else {
                 // If the required arguments haven't been added
-                throw new IllegalArgumentException("Required Arguments (Database, Expression and Table) not found.\nPlease look at the help page using -help");
+                System.out.println("Required Arguments (Database, Expression and Table) not found.\n" +
+                                    "Please look at the help page using -help");
             }
         }
     }

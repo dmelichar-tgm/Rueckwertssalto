@@ -54,9 +54,9 @@ public class FileOutput {
             os.close();
             connection.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Warning: SQL Error found: " +e.getMessage());
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Warning: the File could not be found: " +e.getMessage());
         }
     }
 }
