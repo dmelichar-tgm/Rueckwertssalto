@@ -19,7 +19,7 @@ public class Test {
     public static void main(String[] args) throws SQLException {
         // Create DataSource for MySQL 
         MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setServerName("vmwaredebian");
+        dataSource.setServerName("localhost");
         dataSource.setUser("root");
         dataSource.setPassword("root");
         // Connects using root to get all available databases
@@ -51,9 +51,18 @@ public class Test {
             // Print each table name
             while (rsTables.next()) {
                 System.out.println("\tTABLE_NAME = " + rsTables.getString("TABLE_NAME"));
-            }  
+
+                // Get the column information for each table in each database
+                ResultSet rsColumns = metaData.getColumns(rsDatabases.getString("TABLE_CAT"), null, rsTables.getString("TABLE_NAME"), "%");
+                
+                // Print each column name as well as its type using COLUMN_NAME and TYPE_NAME
+                while (rsColumns.next()) {
+                    System.out.println("\t\tCOLUMN_NAME = " + rsColumns.getString("COLUMN_NAME") + " (TYPE_NAME: " +rsColumns.getString("TYPE_NAME") + ")");
+                    
+                }
+                
+            }
         }
-        
         connection.close();
     }
     
