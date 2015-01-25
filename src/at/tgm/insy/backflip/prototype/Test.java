@@ -52,11 +52,12 @@ public class Test {
             while (rsTables.next()) {
                 System.out.println("\tTABLE_NAME = " + rsTables.getString("TABLE_NAME"));
                 
-                //
-                ResultSet rsKeys = metaData.getImportedKeys(rsDatabases.getString("TABLE_CAT"), null, rsTables.getString("TABLE_NAME"));
+                // Print out primary key, foreign key/table
+                ResultSet rsKeys = metaData.getImportedKeys(rsDatabases.getString("TABLE_CAT"), null, rsTables.getString("TABLE_NAME")); 
                 String PKCOLUMN_NAME = "";
                 String FKTABLE_NAME = "";
                 
+                // Put info of primary key name and foreign key table plus name into the Strings so that they can be put out
                 while (rsKeys.next()) {
                     PKCOLUMN_NAME += "\t\t" + "PKCOLUMN_NAME: " +rsKeys.getString("PKCOLUMN_NAME") + "\n";
                     FKTABLE_NAME += "\t\tFKTABLE_NAME: " +rsKeys.getString("FKTABLE_NAME") + " <FK>" + rsKeys.getString("FKCOLUMN_NAME") + "\n";
