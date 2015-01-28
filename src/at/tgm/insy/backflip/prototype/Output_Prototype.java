@@ -10,60 +10,119 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 /**
  * @author Daniel Melichar
  * @version 25.01.2015
  */
 public class Output_Prototype {
+    
+    private static final String SERVER = "vmwaredebian";
+    private static final String DATABASE = "jdbcTest";
+    private static final String USERNAME = "jdbc";
+    private static final String PASSWORD = "jdbc";
+
 
     public static void main(String[] args) throws SQLException, FileNotFoundException {
         MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setServerName("localhost");
-        dataSource.setUser("root");
-        dataSource.setPassword("root");
+        dataSource.setServerName(SERVER);
+        dataSource.setDatabaseName(DATABASE);
+        dataSource.setUser(USERNAME);
+        dataSource.setPassword(PASSWORD);
 
         PrintWriter os = new PrintWriter(new File(System.getProperty("user.dir") + "\\output.txt"));
 
 
         Connection connection = dataSource.getConnection();
         DatabaseMetaData metaData = connection.getMetaData();
-        ResultSet rsDatabases = metaData.getCatalogs();
+
+        ResultSet rsTables = metaData.getTables(null, null, null, null);
+        
+        while (rsTables.next()) {
+            System.out.println(rsTables.getString("TABLE_NAME"));
+        }
+        
+        
+        /*ResultSet rsDatabases = metaData.getCatalogs();
 
         while (rsDatabases.next()) {
             os.println("RM for Database:\t" + rsDatabases.getString("TABLE_CAT"));
             ResultSet rsTables = metaData.getTables(rsDatabases.getString("TABLE_CAT"), null, null, null);
 
-           while (rsTables.next()) {
-                os.print("\t" + rsTables.getString("TABLE_NAME") + "(");
+            while (rsTables.next()) {
+                os.print("\t" + rsTables.getString("TABLE_NAME") + " (");
 
-                ResultSet rsKeys = metaData.getImportedKeys(rsDatabases.getString("TABLE_CAT"), null, rsTables.getString("TABLE_NAME"));
+                *//* GET PRIMARY KEYS  *//*
+                ResultSet rsPrimaryKeys = metaData.getPrimaryKeys(rsDatabases.getString("TABLE_CAT"), null, rsTables.getString("Table_NAME"));
+                ArrayList<String> primaryKeys = new ArrayList<String>();
 
-                while (rsKeys.next()) {
-                    if (rsKeys.getString("PKCOLUMN_NAME").length() > 0) {
-                        os.print("<PK>" +rsKeys.getString("PKCOLUMN_NAME") + ", ");
+                while (rsPrimaryKeys.next()) {
+                    if (rsPrimaryKeys.getString("COLUMN_NAME").length() > 0) {
+                        primaryKeys.add(rsPrimaryKeys.getString("COLUMN_NAME"));
                     }
-
-                    if (rsKeys.getString("FKCOLUMN_NAME").length() > 0) {
-                        os.print("<FK>" +rsKeys.getString("FKTABLE_NAME") + ":" + rsKeys.getString("FKCOLUMN_NAME") + ", ");
+                }
+                
+                *//* PRINT PRIMARY KEYS *//*
+                os.print("PK <");
+                for (int x = 0; x < primaryKeys.size(); x++) {
+                    if (x < primaryKeys.size()-1) {
+                        os.print(primaryKeys.get(x) + ", ");
+                    } else {
+                        os.print(primaryKeys.get(x));
+                    }
+                }
+                os.print(">, ");
+                
+                *//* GET FOREIGN KEYS *//*
+                ResultSet rsForeignKeys = metaData.getImportedKeys(rsDatabases.getString("TABLE_CAT"), null, rsTables.getString("TABLE_NAME"));
+                ArrayList<String> foreignKeys = new ArrayList<String>();
+                
+                while (rsForeignKeys.next()) {
+                    if (rsForeignKeys.getString("FKCOLUMN_NAME").length() > 0) {
+                        foreignKeys.add(rsForeignKeys.getString("FKCOLUMN_NAME") + ":" + rsForeignKeys.getString("PKTABLE_NAME") + "." + rsForeignKeys.getString("PKCOLUMN_NAME"));
                     }
                 }
 
+                *//* PRINT FOREIGN KEYS *//*
+                for (int x = 0; x < foreignKeys.size(); x++) {
+                    if (x < foreignKeys.size()-1) {
+                        os.print(foreignKeys.get(x) + ", ");
+                    } else {
+                        os.print(foreignKeys.get(x));
+                    }
+                }
+                
                 ResultSet rsColumns = metaData.getColumns(rsDatabases.getString("TABLE_CAT"), null, rsTables.getString("TABLE_NAME"), "%");
-
+                ArrayList<String> columns = new ArrayList<String>();
+                
+                
                 while (rsColumns.next()) {
-                    os.print(rsColumns.getString("COLUMN_NAME") + ":" +rsColumns.getString("TYPE_NAME") + ", ");
-
+                    columns.add(rsColumns.getString("COLUMN_NAME"));
                 }
 
+                
+                for (int x = 0; x < columns.size(); x++) {
+                    if (!(foreignKeys.contains(columns.get(x))) && !primaryKeys.contains(columns.get(x))) {
+                        if (x < columns.size()-1) {
+                            os.print(columns.get(x) + ", ");
+                        } else {
+                            os.print(columns.get(x) + ", ");
+                        }
+                    } else {
+                        // do something
+                    }
+                }
+                
+                
+                
                 os.println(")");
-           }
+            }
             os.println("\n");
         }
-        
-        //os.flush();
-        os.close();
+
+        os.close();*/
         connection.close();
         System.out.println("Finished..");
     }
-    
+
 }
