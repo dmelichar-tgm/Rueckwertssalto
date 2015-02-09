@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 
 /**
@@ -17,10 +18,10 @@ import java.sql.SQLException;
  */
 public class Output_Prototype {
     
-    private static final String SERVER = "vmwaredebian";
-    private static final String DATABASE = "jdbcTest";
-    private static final String USERNAME = "jdbc";
-    private static final String PASSWORD = "jdbc";
+    private static final String SERVER = "localhost";           // vmwaredebian
+    private static final String DATABASE = "tvprog_3chit";      // jdbcTest
+    private static final String USERNAME = "root";              // jdbc
+    private static final String PASSWORD = "root";              // jdbc
 
 
     public static void main(String[] args) throws SQLException, FileNotFoundException {
@@ -37,23 +38,13 @@ public class Output_Prototype {
         DatabaseMetaData metaData = connection.getMetaData();
 
         ResultSet rsTables = metaData.getTables(null, null, null, null);
-        
+
         while (rsTables.next()) {
-            System.out.println(rsTables.getString("TABLE_NAME"));
-        }
-        
-        
-        /*ResultSet rsDatabases = metaData.getCatalogs();
-
-        while (rsDatabases.next()) {
-            os.println("RM for Database:\t" + rsDatabases.getString("TABLE_CAT"));
-            ResultSet rsTables = metaData.getTables(rsDatabases.getString("TABLE_CAT"), null, null, null);
-
             while (rsTables.next()) {
                 os.print("\t" + rsTables.getString("TABLE_NAME") + " (");
 
-                *//* GET PRIMARY KEYS  *//*
-                ResultSet rsPrimaryKeys = metaData.getPrimaryKeys(rsDatabases.getString("TABLE_CAT"), null, rsTables.getString("Table_NAME"));
+                //* GET PRIMARY KEYS  *//
+                ResultSet rsPrimaryKeys = metaData.getPrimaryKeys(null, null, rsTables.getString("Table_NAME"));
                 ArrayList<String> primaryKeys = new ArrayList<String>();
 
                 while (rsPrimaryKeys.next()) {
@@ -61,8 +52,8 @@ public class Output_Prototype {
                         primaryKeys.add(rsPrimaryKeys.getString("COLUMN_NAME"));
                     }
                 }
-                
-                *//* PRINT PRIMARY KEYS *//*
+
+                //* PRINT PRIMARY KEYS *//
                 os.print("PK <");
                 for (int x = 0; x < primaryKeys.size(); x++) {
                     if (x < primaryKeys.size()-1) {
@@ -72,18 +63,18 @@ public class Output_Prototype {
                     }
                 }
                 os.print(">, ");
-                
-                *//* GET FOREIGN KEYS *//*
-                ResultSet rsForeignKeys = metaData.getImportedKeys(rsDatabases.getString("TABLE_CAT"), null, rsTables.getString("TABLE_NAME"));
+
+                //* GET FOREIGN KEYS *//
+                ResultSet rsForeignKeys = metaData.getImportedKeys(null, null, rsTables.getString("TABLE_NAME"));
                 ArrayList<String> foreignKeys = new ArrayList<String>();
-                
+
                 while (rsForeignKeys.next()) {
                     if (rsForeignKeys.getString("FKCOLUMN_NAME").length() > 0) {
                         foreignKeys.add(rsForeignKeys.getString("FKCOLUMN_NAME") + ":" + rsForeignKeys.getString("PKTABLE_NAME") + "." + rsForeignKeys.getString("PKCOLUMN_NAME"));
                     }
                 }
 
-                *//* PRINT FOREIGN KEYS *//*
+                //* PRINT FOREIGN KEYS *//
                 for (int x = 0; x < foreignKeys.size(); x++) {
                     if (x < foreignKeys.size()-1) {
                         os.print(foreignKeys.get(x) + ", ");
@@ -91,16 +82,16 @@ public class Output_Prototype {
                         os.print(foreignKeys.get(x));
                     }
                 }
-                
-                ResultSet rsColumns = metaData.getColumns(rsDatabases.getString("TABLE_CAT"), null, rsTables.getString("TABLE_NAME"), "%");
+
+                ResultSet rsColumns = metaData.getColumns(null, null, rsTables.getString("TABLE_NAME"), "%");
                 ArrayList<String> columns = new ArrayList<String>();
-                
-                
+
+
                 while (rsColumns.next()) {
                     columns.add(rsColumns.getString("COLUMN_NAME"));
                 }
 
-                
+
                 for (int x = 0; x < columns.size(); x++) {
                     if (!(foreignKeys.contains(columns.get(x))) && !primaryKeys.contains(columns.get(x))) {
                         if (x < columns.size()-1) {
@@ -112,15 +103,14 @@ public class Output_Prototype {
                         // do something
                     }
                 }
-                
-                
-                
-                os.println(")");
-            }
-            os.println("\n");
-        }
 
-        os.close();*/
+
+
+                os.println(")\n");
+            }
+        }
+        
+        os.close();
         connection.close();
         System.out.println("Finished..");
     }

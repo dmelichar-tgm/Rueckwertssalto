@@ -280,7 +280,7 @@ public class CommandLineController {
             hf.print(); // Print out help
             System.exit(1);
         } else {
-            // Required Arguments: Database, Table and Expression
+            // Required Arguments: Database and Table
             if (cl.hasOption(this.buildDatabase()) && cl.hasOption(this.buildTable()) ) {
                 this.database = cl.getValue(buildDatabase()).toString();
                 this.table = cl.getValue(buildTable()).toString();

@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Rückwertssalto">
+    <output-path>$PROJECT_DIR$/out/artifacts/Melichar_Daniel_A05</output-path>
+    <root id="archive" name="Rückwertssalto.jar">
+      <element id="file-copy" path="$PROJECT_DIR$/doc/Rückwertssalto.docx" />
+      <element id="file-copy" path="$PROJECT_DIR$/doc/Melichar_Daniel_backflip.asta" />
+      <element id="file-copy" path="$PROJECT_DIR$/doc/FunktionenTabelle.xlsx" />
+      <element id="file-copy" path="$PROJECT_DIR$/output.txt" />
+      <element id="file-copy" path="$PROJECT_DIR$/README.md" />
+      <element id="file-copy" path="$PROJECT_DIR$/JDBC.iml" />
+      <element id="file-copy" path="$PROJECT_DIR$/repo.log" />
+    </root>
+  </artifact>
+</component>
