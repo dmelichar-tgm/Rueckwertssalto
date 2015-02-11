@@ -1,5 +1,7 @@
 package at.tgm.insy.backflip.cli;
 
+import at.tgm.insy.backflip.model.ConnectionInfo;
+import at.tgm.insy.backflip.model.DatabaseTypes;
 import org.apache.commons.cli2.*;
 import org.apache.commons.cli2.builder.ArgumentBuilder;
 import org.apache.commons.cli2.builder.DefaultOptionBuilder;
@@ -23,15 +25,18 @@ public class CommandLineController {
     private String user = "";
     private String password = "";
     private String database = "";
-    private String databaseType = "";
+    private DatabaseTypes databaseType = null;
     private String outputFile = "";
     private String table = "";
+    
+    private ConnectionInfo connectionInfo;
 
     /* CONSTRUCTORS */
     public CommandLineController(String[] args) {
         optionBuilder = new DefaultOptionBuilder();
         argumentBuilder = new ArgumentBuilder();
         GroupBuilder groupBuilder = new GroupBuilder();
+        connectionInfo = new ConnectionInfo();
 
         Group options = groupBuilder
                 .withName("options")
@@ -282,40 +287,68 @@ public class CommandLineController {
         } else {
             // Required Arguments: Database and Table
             if (cl.hasOption(this.buildDatabase()) && cl.hasOption(this.buildTable()) ) {
-                this.database = cl.getValue(buildDatabase()).toString();
-                this.table = cl.getValue(buildTable()).toString();
+                String database = cl.getValue(buildDatabase()).toString();
+                String table = cl.getValue(buildTable()).toString();
+               
+                this.database = database;
+                this.table = table;
 
+                connectionInfo.setDatabase(database);
+                connectionInfo.setTable(table);
+                
                 // Default (if nothing is set): localhost
                 if (cl.hasOption(this.buildHost())) {
-                    this.host = cl.getValue(buildHost()).toString();
+                    String host = cl.getValue(buildHost()).toString();
+                    this.host = host;
+                    connectionInfo.setHost(host);
                 } else {
                     this.host = "localhost";
+                    connectionInfo.setHost(host);
                 }
 
                 // Default: System's user name
                 if (cl.hasOption(this.buildUser())) {
-                    this.user = cl.getValue(buildUser()).toString();
+                    String user = cl.getValue(buildUser()).toString();
+                    this.user = user;
+                    connectionInfo.setUser(user);
                 } else {
                     this.user = System.getProperty("user.name");
+                    connectionInfo.setUser(System.getProperty("user.name"));
                 }
 
                 // Default password: none
                 if (cl.hasOption(this.buildPassword())) {
-                    this.password = cl.getValue(buildPassword()).toString();
+                    String password = cl.getValue(buildPassword()).toString();
+                    this.password = password;
+                    connectionInfo.setPassword(password);
                 } else {
                     this.password = "";
+                    connectionInfo.setPassword("");
                 }
                 
                 // Password prompt in console
                 if (cl.hasOption(this.buildPasswordPrompt())) {
-                    this.password = new String(System.console().readPassword("Password: "));
+                    String password = new String(System.console().readPassword("Password: "));
+                    this.password = password;
+                    connectionInfo.setPassword(password);
                 }
 
                 // Database type, for future expansion. Default: mysql
                 if (cl.hasOption(this.buildDatabaseType())) {
-                    this.databaseType = cl.getValue(buildDatabaseType()).toString();
+                    String databaseType = cl.getValue(buildDatabaseType()).toString();
+                    if (databaseType.equalsIgnoreCase("mysql")) {
+                        this.databaseType = DatabaseTypes.MYSQL;
+                        connectionInfo.setDatabaseType(DatabaseTypes.MYSQL);
+                    } else if (databaseType.equalsIgnoreCase("oracle")) {
+                        this.databaseType = DatabaseTypes.ORACLE;
+                        connectionInfo.setDatabaseType(DatabaseTypes.ORACLE);
+                    } else if (databaseType.equalsIgnoreCase("postgres")) {
+                        this.databaseType = DatabaseTypes.POSTGRES;
+                        connectionInfo.setDatabaseType(DatabaseTypes.POSTGRES);
+                    }
                 } else {
-                    this.databaseType = "mysql";
+                    this.databaseType = DatabaseTypes.MYSQL;
+                    connectionInfo.setDatabaseType(DatabaseTypes.MYSQL);
                 }
 
                 // File 
@@ -323,9 +356,7 @@ public class CommandLineController {
                     this.outputFile = cl.getValue(buildOutputFile()).toString();
                 }
             } else {
-                // If the required arguments haven't been added
-                System.out.println("Required Arguments (Database, Expression and Table) not found.\n" +
-                                    "Please look at the help page using -help");
+                // ToDo
             }
         }
     }
@@ -348,7 +379,7 @@ public class CommandLineController {
         return database;
     }
 
-    public String getDatabaseType() {
+    public DatabaseTypes getDatabaseType() {
         return databaseType;
     }
 
