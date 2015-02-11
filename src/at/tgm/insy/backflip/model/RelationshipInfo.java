@@ -55,14 +55,17 @@ public class RelationshipInfo {
         this.definition = definition;
     }
 
+    public void addKey(String parentKey, String childKey) {
+        keys.put(parentKey, childKey);
+    }
+
+    public void removeKey(String parentKey) {
+        keys.remove(parentKey);
+    }
+
     public Map<String, String> getKeys() {
         return keys;
     }
-
-    public void setKeys(Map<String, String> keys) {
-        this.keys = keys;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

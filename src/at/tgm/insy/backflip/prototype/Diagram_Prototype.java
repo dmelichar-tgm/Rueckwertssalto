@@ -35,7 +35,7 @@ public class Diagram_Prototype {
         m_tables = new Hashtable<String, Table>();
         
         getMetaData(connection);
-        createERD(System.getProperty("user.dir"));
+        createERD(System.getProperty("user.dir") + "\\out\\");
 
         try {
             // My system: D:\Graphviz2.38\bin
@@ -47,7 +47,6 @@ public class Diagram_Prototype {
     
     private void getMetaData(Connection con) {
         try {
-            
             // Getting meta data from connection
             Statement st = con.createStatement();
             DatabaseMetaData dbm = con.getMetaData();
@@ -116,7 +115,7 @@ public class Diagram_Prototype {
                 Table t_tamp = (e.nextElement());
                 s.append(t_tamp.getName());
                 s.append("\"[label=<<TABLE BORDER=\"0\" CELLBORDER=\"0\" CELLSPACING=\"0\" CELLPADDING=\"4\"><TR><TD><B>");
-                s.append(t_tamp.getName() + "</B></TD></TR>");
+                s.append("</B></TD></TR>" + t_tamp.getName());
 
                 Hashtable<String, Attribute> x2 = t_tamp.getAttributes();
 

@@ -12,7 +12,7 @@ public class IndexInfo {
     private String name;
     private String parentEntity;
     private List<String> attributes;
-    private boolean isUnqique;
+    private boolean isUnique;
     
     public IndexInfo() {
         name = "";
@@ -40,16 +40,15 @@ public class IndexInfo {
         return attributes;
     }
 
-    public void setAttributes(List<String> attributes) {
-        this.attributes = attributes;
+    public void addAttribute(String attrName) {
+        attributes.add(attrName);
+    }
+    public boolean isUnique() {
+        return isUnique;
     }
 
-    public boolean isUnqique() {
-        return isUnqique;
-    }
-
-    public void setUnqique(boolean isUnqique) {
-        this.isUnqique = isUnqique;
+    public void setUnique(boolean isUnique) {
+        this.isUnique = isUnique;
     }
 
     @Override
@@ -59,13 +58,11 @@ public class IndexInfo {
 
         IndexInfo indexInfo = (IndexInfo) o;
 
-        if (isUnqique != indexInfo.isUnqique) return false;
+        if (isUnique != indexInfo.isUnique) return false;
         if (attributes != null ? !attributes.equals(indexInfo.attributes) : indexInfo.attributes != null) return false;
         if (name != null ? !name.equals(indexInfo.name) : indexInfo.name != null) return false;
-        if (parentEntity != null ? !parentEntity.equals(indexInfo.parentEntity) : indexInfo.parentEntity != null)
-            return false;
+        return !(parentEntity != null ? !parentEntity.equals(indexInfo.parentEntity) : indexInfo.parentEntity != null);
 
-        return true;
     }
 
     @Override
@@ -73,7 +70,7 @@ public class IndexInfo {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (parentEntity != null ? parentEntity.hashCode() : 0);
         result = 31 * result + (attributes != null ? attributes.hashCode() : 0);
-        result = 31 * result + (isUnqique ? 1 : 0);
+        result = 31 * result + (isUnique ? 1 : 0);
         return result;
     }
 
@@ -83,7 +80,7 @@ public class IndexInfo {
                 "name='" + name + '\'' +
                 ", parentEntity='" + parentEntity + '\'' +
                 ", attributes=" + attributes +
-                ", isUnqique=" + isUnqique +
+                ", isUnique=" + isUnique +
                 '}';
     }
 }

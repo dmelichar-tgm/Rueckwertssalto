@@ -1,5 +1,7 @@
 package at.tgm.insy.backflip.connection;
 
+import at.tgm.insy.backflip.model.ConnectionInfo;
+
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -21,25 +23,20 @@ public abstract class AbstractConnection {
      * to overwrite this method to suit the Database type. It will return
      * a DataSource Object which can then be used
      *
-     * @param host     Server host (IP or Domain)
-     * @param user     Designated user with given rights
-     * @param password Password to the user's account
+     * @param connectionInfo A Object of the ConnectionInfo class which has all info
      * @return DataSource Object
      */
-    public abstract DataSource createConnection(String host, String user, String password, String database);
+    public abstract DataSource createConnection(ConnectionInfo connectionInfo);
 
     /**
      * Creates a connection to a Database with the given information.
      *
-     * @param host     Server host
-     * @param user     Designated user with given rights
-     * @param password Password to the user's account
-     * @param database The Database you want to connect to
+     * @param connectionInfo A Object of the ConnectionInfo class which has all info
      */
-    public void start(String host, String user, String password, String database) {
+    public void start(ConnectionInfo connectionInfo) {
         try {
             // Connect to Database and store it in the Attribute for later use.
-            DataSource ds = createConnection(host, user, password, database);
+            DataSource ds = createConnection(connectionInfo);
             this.connection = ds.getConnection();
             
             metaData = connection.getMetaData();

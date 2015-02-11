@@ -1,5 +1,6 @@
 package at.tgm.insy.backflip.connection;
 
+import at.tgm.insy.backflip.model.ConnectionInfo;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
 import javax.sql.DataSource;
@@ -13,20 +14,18 @@ public class MySQLConnection extends AbstractConnection {
     /**
      * Implementation for MySQL
      *
-     * @param host     Server host (IP or Domain)
-     * @param user     Designated user with given rights
-     * @param password Password to the user's account
+     * @param connectionInfo A Object of the ConnectionInfo class which has all info
      * @return DataSource Object
      */
     @Override
-    public DataSource createConnection(String host, String user, String password, String database) {
+    public DataSource createConnection(ConnectionInfo connectionInfo) {
         MysqlDataSource ds = new MysqlDataSource();
 
         // Set host, user and password
-        ds.setServerName(host);
-        ds.setUser(user);
-        ds.setPassword(password);
-        ds.setDatabaseName(database);
+        ds.setServerName(connectionInfo.getHost());
+        ds.setUser(connectionInfo.getUser());
+        ds.setPassword(connectionInfo.getPassword());
+        ds.setDatabaseName(connectionInfo.getDatabase());
 
         return ds;
     }

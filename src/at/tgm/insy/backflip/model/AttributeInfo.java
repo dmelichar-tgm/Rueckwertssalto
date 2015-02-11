@@ -25,14 +25,6 @@ public class AttributeInfo {
         isNotNull = false;
     }
 
-    public String getParentTable() {
-        return parentTable;
-    }
-
-    public void setParentTable(String parentTable) {
-        this.parentTable = parentTable;
-    }
-
     public String getName() {
         return name;
     }
@@ -73,20 +65,28 @@ public class AttributeInfo {
         this.isPK = isPK;
     }
 
-    public boolean isFK() {
-        return isFK;
-    }
-
-    public void setFK(boolean isFK) {
-        this.isFK = isFK;
-    }
-
     public boolean isNotNull() {
         return isNotNull;
     }
 
     public void setNotNull(boolean isNotNull) {
         this.isNotNull = isNotNull;
+    }
+
+    public String getParentTable() {
+        return parentTable;
+    }
+
+    public void setParentTable(String parentTable) {
+        this.parentTable = parentTable;
+    }
+
+    public boolean isFK() {
+        return isFK;
+    }
+
+    public void setFK(boolean isFK) {
+        this.isFK = isFK;
     }
 
     @Override

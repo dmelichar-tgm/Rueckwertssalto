@@ -19,7 +19,7 @@ public class TableInfo {
         name = "";
         type = "";
         definition = "";
-        attributes = new ArrayList<AttributeInfo>();
+        attributes = new ArrayList  <AttributeInfo>();
         indexes = new ArrayList<IndexInfo>();
     }
 
@@ -31,14 +31,6 @@ public class TableInfo {
         this.name = name;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getDefinition() {
         return definition;
     }
@@ -47,22 +39,40 @@ public class TableInfo {
         this.definition = definition;
     }
 
+    public void addAttribute(AttributeInfo info) {
+        info.setParentTable(name);
+        attributes.add(info);
+    }
+
+    public void addAttributes(List<AttributeInfo> attributes) {
+        for (AttributeInfo attributeInfo : attributes) {
+            addAttribute(attributeInfo);
+        }
+    }
+
     public List<AttributeInfo> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(List<AttributeInfo> attributes) {
-        this.attributes = attributes;
+    public String getType() {
+        return type;
     }
 
-    public List<IndexInfo> getIndexes() {
-        return indexes;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public void setIndexes(List<IndexInfo> indexes) {
         this.indexes = indexes;
     }
 
+    public void addIndex(IndexInfo index) {
+        indexes.add(index);
+    }
+
+    public List<IndexInfo> getIndexes() {
+        return indexes;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
