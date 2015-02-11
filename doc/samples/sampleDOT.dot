@@ -1,0 +1,32 @@
+digraph G { 
+	overlap = false
+	"kfilm" [label = <>, shape=box];
+	"sendung" [label = <>, shape=box];
+	"produktion"[label = <>, shape=box];
+	"ffilm"[label = <>, shape=box];
+	"sender"[label = <>, shape=box];
+	
+	"rel0" [label="rel0" shape=diamond];
+	"kfilm" -> "rel0" [arrowhead ="none" taillabel="(0,1)"];
+	"sendung" -> "rel0" [arrowhead ="none" taillabel="(0,*)"];
+	
+	"rel1" [label="rel1" shape=diamond];
+	"produktion" -> "rel1" [arrowhead ="none" taillabel="(0,1)"];
+	"sender" -> "rel1" [arrowhead ="none" taillabel="(0,*)"];
+	
+	"rel2" [label="rel2" shape=diamond];
+	"produktion" -> "rel2" [arrowhead ="none" taillabel="(0,1)"];
+	"ffilm" -> "rel2" [arrowhead ="none" taillabel="(0,*)"];
+	
+	"rel3" [label="rel3" shape=diamond];
+	"ffilm" -> "rel3" [arrowhead ="none" taillabel="(0,1)"];
+	"sendung" -> "rel3" [arrowhead ="none" taillabel="(0,*)"];
+	
+	"rel4" [label="rel4" shape=diamond];
+	"stermin" -> "rel4" [arrowhead ="none" taillabel="(0,1)"];
+	"sender" -> "rel4" [arrowhead ="none" taillabel="(0,*)"];
+	
+	"rel5" [label="rel5" shape=diamond];
+	"stermin" -> "rel5" [arrowhead ="none" taillabel="(0,1)"];
+	"sendung" -> "rel5" [arrowhead ="none" taillabel="(0,*)"];
+}

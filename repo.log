@@ -1,0 +1,392 @@
+commit 3f149a8447e2f201992a3c4c1f47324bef8533ea
+Merge: ac9e54a 55bc1dc
+Author: Tharnawn <danielmelichar0905@gmail.com>
+Date:   Wed Feb 11 23:43:05 2015 +0100
+
+    Merge remote-tracking branch 'origin/master'
+
+commit ac9e54add1b3a8173d3aca1db133114254603de2
+Author: Daniel Melichar <dmelichar@student.tgm.ac.at>
+Date:   Wed Feb 11 23:38:01 2015 +0100
+
+    Big update.
+    CommandLineController: added support for config.properties file, removed table option (its unnecessary),
+    ConfigUtil: added config.properties support
+    Connection + Metadata: basic functionallity updates
+    Output: finished RM, almost finished EER (missing relationships and rendering)
+
+ config.properties                                  |   5 +
+ src/at/tgm/insy/backflip/Main.java                 |  18 +++
+ .../insy/backflip/cli/CommandLineController.java   | 159 +++++++++------------
+ src/at/tgm/insy/backflip/config/ConfigUtil.java    |  74 ++++++++++
+ .../backflip/connection/AbstractConnection.java    |   3 +-
+ .../backflip/connection/ConnectionFactory.java     |   8 +-
+ src/at/tgm/insy/backflip/metadata/DBReader.java    |  12 +-
+ .../tgm/insy/backflip/output/AbstractOutput.java   |  11 --
+ src/at/tgm/insy/backflip/output/EEROutput.java     | 113 ++++++++++++++-
+ .../tgm/insy/backflip/output/OutputController.java |  49 +++++++
+ src/at/tgm/insy/backflip/output/OutputFactory.java |  11 +-
+ src/at/tgm/insy/backflip/output/RMOutput.java      |  88 +++++++++++-
+ .../insy/backflip/prototype/Diagram_Prototype.java |   8 +-
+ .../insy/backflip/prototype/Output_Prototype.java  |   2 +-
+ src/at/tgm/insy/backflip/prototype/Test.java       |  76 ++--------
+ 15 files changed, 444 insertions(+), 193 deletions(-)
+
+commit 55bc1dc5d859cb1dfce32762aa16baf4158a49c7
+Author: Daniel Melichar <dmelichar@student.tgm.ac.at>
+Date:   Wed Feb 11 23:38:01 2015 +0100
+
+    Big update.
+    CommandLineController: added support for config.properties file, removed table option (its unnecessary),
+    ConfigUtil: added config.properties support
+    Connection + Metadata: basic functionallity updates
+    Output: finished RM, almost finished EER (missing relationships and rendering)
+
+ src/at/tgm/insy/backflip/Main.java                 |  18 +++
+ .../insy/backflip/cli/CommandLineController.java   | 159 +++++++++------------
+ src/at/tgm/insy/backflip/config/ConfigUtil.java    |  74 ++++++++++
+ .../backflip/connection/AbstractConnection.java    |   3 +-
+ .../backflip/connection/ConnectionFactory.java     |   8 +-
+ src/at/tgm/insy/backflip/metadata/DBReader.java    |  12 +-
+ .../tgm/insy/backflip/output/AbstractOutput.java   |  11 --
+ src/at/tgm/insy/backflip/output/EEROutput.java     | 113 ++++++++++++++-
+ .../tgm/insy/backflip/output/OutputController.java |  49 +++++++
+ src/at/tgm/insy/backflip/output/OutputFactory.java |  11 +-
+ src/at/tgm/insy/backflip/output/RMOutput.java      |  88 +++++++++++-
+ .../insy/backflip/prototype/Diagram_Prototype.java |   8 +-
+ .../insy/backflip/prototype/Output_Prototype.java  |   2 +-
+ src/at/tgm/insy/backflip/prototype/Test.java       |  76 ++--------
+ 14 files changed, 439 insertions(+), 193 deletions(-)
+
+commit 7f22606cf62c702c4ef8d0259eff59a737a43e29
+Author: Daniel Melichar <dmelichar@student.tgm.ac.at>
+Date:   Wed Feb 11 09:40:10 2015 +0100
+
+    Added base for output
+    Updated connection model and updated commandlinecontroller to fit with ConnectionInfo
+
+ .../insy/backflip/cli/CommandLineController.java   | 59 +++++++++++++++++-----
+ src/at/tgm/insy/backflip/model/ConnectionInfo.java | 46 +++++++++++++----
+ .../tgm/insy/backflip/output/AbstractOutput.java   | 11 ++++
+ src/at/tgm/insy/backflip/output/EEROutput.java     |  8 +++
+ src/at/tgm/insy/backflip/output/OutputFactory.java | 24 +++++++++
+ src/at/tgm/insy/backflip/output/RMOutput.java      |  8 +++
+ 6 files changed, 132 insertions(+), 24 deletions(-)
+
+commit 27751de95f0e20f99e8e7cba063e26a680ce8d19
+Author: Tharnawn <danielmelichar0905@gmail.com>
+Date:   Wed Feb 11 09:09:07 2015 +0100
+
+    Way too many updates.
+    Connection: re-did the Abstract Connection to fit with the model
+    Metadata: added all classes
+    Model: updated
+    Prototype: finished diagram prototype (props to hannah)
+
+ doc/testdoc/sampleOutput.PNG                       | Bin 69708 -> 0 bytes
+ doc/testdoc/sampleSQL.sql                          |  88 ------
+ .../backflip/connection/AbstractConnection.java    |  17 +-
+ .../insy/backflip/connection/MySQLConnection.java  |  15 +-
+ .../tgm/insy/backflip/metadata/DBConnection.java   | 109 +++++++
+ src/at/tgm/insy/backflip/metadata/DBReader.java    | 350 +++++++++++++++++++++
+ .../tgm/insy/backflip/metadata/DBStaticFields.java |  53 ++++
+ src/at/tgm/insy/backflip/model/AttributeInfo.java  |  32 +-
+ src/at/tgm/insy/backflip/model/ConnectionInfo.java |  44 ++-
+ src/at/tgm/insy/backflip/model/DatabaseTypes.java  |  25 ++
+ src/at/tgm/insy/backflip/model/IndexInfo.java      |  25 +-
+ .../tgm/insy/backflip/model/RelationshipInfo.java  |  11 +-
+ src/at/tgm/insy/backflip/model/TableInfo.java      |  36 ++-
+ .../insy/backflip/prototype/Diagram_Prototype.java |   5 +-
+ 14 files changed, 647 insertions(+), 163 deletions(-)
+
+commit 7f6c368d9c47d77dcc5ab45ff33ef166fbc279e5
+Author: Tharnawn <danielmelichar0905@gmail.com>
+Date:   Mon Feb 9 11:21:50 2015 +0100
+
+    Updates!
+    
+    Diagram prototype finished
+
+ src/at/tgm/insy/backflip/prototype/Diagram_Prototype.java | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit 071740d6a8fd47c53a6f57fa87ebb40f12f38ceb
+Author: Daniel Melichar <dmelichar@student.tgm.ac.at>
+Date:   Mon Feb 9 11:14:31 2015 +0100
+
+    Updates!
+    
+    Diagram prototype finished
+
+ ".idea/artifacts/R\303\274ckwertssalto.xml"        |  14 ++
+ .idea/libraries/libaries.xml                       |   3 +-
+ "doc/R\303\274ckwertssalto.docx"                   | Bin 92071 -> 91594 bytes
+ .../insy/backflip/cli/CommandLineController.java   |   2 +-
+ .../insy/backflip/prototype/Diagram_Prototype.java | 187 +++++++++++++++++++++
+ .../insy/backflip/prototype/Output_Prototype.java  |  62 +++----
+ 6 files changed, 229 insertions(+), 39 deletions(-)
+
+commit c1adcf50b07d4bb3c2d5032b4dc961b84dca1e6b
+Author: Daniel Melichar <dmelichar@student.tgm.ac.at>
+Date:   Tue Feb 3 18:56:19 2015 +0100
+
+    Added model classes
+
+ src/at/tgm/insy/backflip/model/AttributeInfo.java  | 137 +++++++++++++++++++++
+ src/at/tgm/insy/backflip/model/ConnectionInfo.java |  62 ++++++++++
+ src/at/tgm/insy/backflip/model/DatatypeInfo.java   |  74 +++++++++++
+ .../insy/backflip/model/ERRelationshipInfo.java    | 134 ++++++++++++++++++++
+ src/at/tgm/insy/backflip/model/IndexInfo.java      |  89 +++++++++++++
+ .../tgm/insy/backflip/model/RelationshipInfo.java  | 102 +++++++++++++++
+ .../backflip/model/SubtypeRelationshipInfo.java    |  69 +++++++++++
+ src/at/tgm/insy/backflip/model/TableInfo.java      | 102 +++++++++++++++
+ 8 files changed, 769 insertions(+)
+
+commit 3e4b633d006732abe239b391bf4556865985c678
+Author: Daniel Melichar <dmelichar@student.tgm.ac.at>
+Date:   Tue Feb 3 18:23:14 2015 +0100
+
+    Added class diagram for application. Note: not everything included in UML
+
+ doc/Melichar_Daniel_backflip.asta | Bin 0 -> 34559 bytes
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit c3be4c55a4ebd64efec2aef6616944bab8c801c3
+Author: Daniel Melichar <dmelichar@student.tgm.ac.at>
+Date:   Mon Feb 2 11:01:48 2015 +0100
+
+    Updated functions
+    Updated documentation
+    Added new packages according to new design (coming soon)
+    Added package-info for packages
+
+ doc/FunktionenTabelle.xlsx                         | Bin 12066 -> 11962 bytes
+ "doc/R\303\274ckwertssalto.docx"                   | Bin 89188 -> 92071 bytes
+ src/at/tgm/insy/backflip/database/MetaData.java    |  22 ---------------------
+ .../tgm/insy/backflip/database/package-info.java   |   9 ---------
+ .../tgm/insy/backflip/metadata/package-info.java   |   7 +++++++
+ src/at/tgm/insy/backflip/model/package-info.java   |   6 ++++++
+ 6 files changed, 13 insertions(+), 31 deletions(-)
+
+commit cc41d61446bc8a0481263931901453d2cc77a5d3
+Author: Daniel Melichar <dmelichar@student.tgm.ac.at>
+Date:   Wed Jan 28 16:53:22 2015 +0100
+
+    Added some classes from The Exporter and changed their structure to suit our needs
+
+ .../insy/backflip/cli/CommandLineController.java   | 362 +++++++++++++++++++++
+ .../backflip/connection/AbstractConnection.java    |  65 ++++
+ .../backflip/connection/ConnectionFactory.java     |  30 ++
+ .../insy/backflip/connection/MySQLConnection.java  |  33 ++
+ src/at/tgm/insy/backflip/database/MetaData.java    |  22 ++
+ .../tgm/insy/backflip/database/package-info.java   |   9 +
+ .../insy/backflip/prototype/Output_Prototype.java  | 101 ++++--
+ 7 files changed, 601 insertions(+), 21 deletions(-)
+
+commit b226c44ed2f7f04c0ada647f6bfd75d0898bd0f5
+Author: Daniel Melichar <dmelichar@student.tgm.ac.at>
+Date:   Sun Jan 25 14:49:31 2015 +0100
+
+    Added sample files and added comments on prototype
+
+ .../insy/backflip/prototype/Output_Prototype.java  | 66 ++++++++++++++++++++--
+ 1 file changed, 62 insertions(+), 4 deletions(-)
+
+commit e556c01021cf941cbf858f683159a2a7ebef2474
+Author: Tharnawn <danielmelichar0905@gmail.com>
+Date:   Sun Jan 25 10:24:24 2015 +0100
+
+    Added sample files and added comments on prototype
+
+ doc/testdoc/sampleOutput.PNG                 | Bin 0 -> 69708 bytes
+ doc/testdoc/sampleSQL.sql                    |  88 +++++++++++++++++++++++++++
+ src/at/tgm/insy/backflip/prototype/Test.java |   5 +-
+ 3 files changed, 91 insertions(+), 2 deletions(-)
+
+commit f81f05f1b2b80e75dd9767a42872c1e74e9393a9
+Author: Tharnawn <danielmelichar0905@gmail.com>
+Date:   Thu Jan 22 11:18:34 2015 +0100
+
+    Can now read primary key, foreign key and foreign table
+
+ src/at/tgm/insy/backflip/prototype/Test.java | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
+
+commit 385ec773c856e2433873b383eb0ae96696a562e8
+Author: Tharnawn <danielmelichar0905@gmail.com>
+Date:   Thu Jan 22 10:24:49 2015 +0100
+
+    Added package-info classes
+
+ src/at/tgm/insy/backflip/cli/package-info.java        |  8 ++++++++
+ src/at/tgm/insy/backflip/connection/package-info.java | 11 +++++++++++
+ src/at/tgm/insy/backflip/output/package-info.java     | 11 +++++++++++
+ src/at/tgm/insy/backflip/prototype/package-info.java  |  9 +++++++++
+ 4 files changed, 39 insertions(+)
+
+commit cc2336fd4de3ab2bf81b09fe25a5d8ac50d8d0c3
+Author: Tharnawn <danielmelichar0905@gmail.com>
+Date:   Thu Jan 22 10:16:52 2015 +0100
+
+    Output_Prototype class
+
+ src/at/tgm/insy/backflip/prototype/Output_Prototype.java | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+commit 22b61bf44b034e03ca99bc3d7f7e02130b4ec07f
+Merge: ea56c14 225809c
+Author: Tharnawn <danielmelichar0905@gmail.com>
+Date:   Wed Jan 21 13:43:37 2015 +0100
+
+    Merge remote-tracking branch 'origin/master'
+    
+    Conflicts:
+    	src/at/tgm/insy/backflip/prototype/Test.java
+
+commit ea56c14332407d2b1303345710b63797f90a14e3
+Author: Tharnawn <danielmelichar0905@gmail.com>
+Date:   Wed Jan 21 13:29:14 2015 +0100
+
+    Added data type functionality to prototype. We can now read every table and their columns and column-types of every database on a server.
+
+ src/at/tgm/insy/backflip/prototype/Test.java | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+
+commit 225809cd44be5ef51c6b5eff8ccbfe2bd91b9043
+Author: Tharnawn <danielmelichar0905@gmail.com>
+Date:   Wed Jan 21 13:29:14 2015 +0100
+
+    Added data type functionality to prototype. We can now read every table and their columns and column-types of every database on a server.
+
+ src/at/tgm/insy/backflip/prototype/Test.java | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
+
+commit 2240cb9132ac2de6b3919d8bba8139a021a74190
+Author: Tharnawn <danielmelichar0905@gmail.com>
+Date:   Sun Jan 18 19:23:48 2015 +0100
+
+    Added JUnit Test Class for Argument parser
+
+ "doc/R\303\274ckwertssalto.docx"                   | Bin 61011 -> 89188 bytes
+ src/at/tgm/insy/theexporter/Main.java              |   4 +-
+ .../theexporter/cli/CommandLineController.java     |   3 +-
+ .../insy/theexporter/connection/Connection.java    |  66 +++++++--------------
+ .../theexporter/connection/ConnectionFactory.java  |   2 +-
+ .../tgm/insy/theexporter/output/ConsoleOutput.java |   2 +-
+ src/at/tgm/insy/theexporter/output/FileOutput.java |   4 +-
+ .../test/CommandLineControllerTest.java            |  41 ++++++++++++-
+ 8 files changed, 69 insertions(+), 53 deletions(-)
+
+commit 7046b24b8f38e05ce2876345c21f3946dc9698f3
+Author: Tharnawn <danielmelichar0905@gmail.com>
+Date:   Sun Jan 18 14:17:55 2015 +0100
+
+    Updated doc
+
+ .../schemacrawlerTest/SchemacrawlerTest.java       | 48 ---------------
+ .../test/CommandLineControllerTest.java            | 68 ++++++++++++++++++++++
+ .../tgm/insy/theexporter/test/TestArguments.java   | 11 ----
+ 3 files changed, 68 insertions(+), 59 deletions(-)
+
+commit b271f9a61e7cee990508196e5ad27c93d51d2d21
+Author: Tharnawn <danielmelichar0905@gmail.com>
+Date:   Wed Jan 14 13:07:37 2015 +0100
+
+    Added JUnit Test Class for Argument parser
+
+ .idea/misc.xml                                      | 18 ++++++++++++++++++
+ JDBC.iml                                            | 11 +++++++++++
+ src/at/tgm/insy/theexporter/test/TestArguments.java | 11 +++++++++++
+ 3 files changed, 40 insertions(+)
+
+commit 72bf9bab7d7fdf124c61f8096b32b1ad864cb110
+Author: Tharnawn <danielmelichar0905@gmail.com>
+Date:   Wed Jan 14 00:57:58 2015 +0100
+
+    updated the exporter
+
+ .../backflip/schemacrawlerTest/SchemacrawlerTest.java    |  2 --
+ .../tgm/insy/theexporter/cli/CommandLineController.java  | 16 ++--------------
+ src/at/tgm/insy/theexporter/output/FileOutput.java       |  1 +
+ 3 files changed, 3 insertions(+), 16 deletions(-)
+
+commit b039932013f78a8528c1b943e78444efbd10aa9d
+Author: Tharnawn <danielmelichar0905@gmail.com>
+Date:   Tue Jan 13 22:53:03 2015 +0100
+
+    Created testing class for the schemacrawler library that will be used. This testing class is a modified version of the one provided by the examples directory.
+
+ .idea/libraries/libaries.xml                       |  2 +
+ .../schemacrawlerTest/SchemacrawlerTest.java       | 50 ++++++++++++++++++++++
+ 2 files changed, 52 insertions(+)
+
+commit f23280f17c5abb6f673f7bbd24c11d9ef1c3e667
+Author: Tharnawn <danielmelichar0905@gmail.com>
+Date:   Mon Jan 12 21:21:27 2015 +0100
+
+    Added documentation
+
+ doc/FunktionenTabelle.xlsx       | Bin 0 -> 12066 bytes
+ "doc/R\303\274ckwertssalto.docx" | Bin 0 -> 61011 bytes
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit dfa912023d8c622c50bebda62695372359d88c89
+Merge: e82613b cc35059
+Author: Tharnawn <danielmelichar0905@gmail.com>
+Date:   Mon Jan 12 20:18:16 2015 +0100
+
+    Merge remote-tracking branch 'origin/master'
+
+commit e82613b54213de0de3c959db3ae1e29d10eb1860
+Author: Tharnawn <danielmelichar0905@gmail.com>
+Date:   Mon Jan 12 20:17:16 2015 +0100
+
+    Finished prototype and added comments
+
+ src/at/tgm/insy/backflip/prototype/Test.java | 51 ++++++++++++++++++++++++++--
+ 1 file changed, 49 insertions(+), 2 deletions(-)
+
+commit cc35059ee368ae49c91eec7f6a6229ade15ad72f
+Author: Daniel Melichar <dmelichar-tgm@users.noreply.github.com>
+Date:   Mon Jan 12 19:18:05 2015 +0100
+
+    Create README.md
+
+ README.md | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit fff287cf62edb8cfc4a2aa8ee543f849b90e2a57
+Author: Tharnawn <danielmelichar0905@gmail.com>
+Date:   Mon Jan 12 19:16:22 2015 +0100
+
+    test
+
+ src/at/tgm/insy/backflip/prototype/Test.java | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+commit 20a18805fc3338afd492272ecfc360caca65d351
+Author: Tharnawn <danielmelichar0905@gmail.com>
+Date:   Mon Jan 12 19:15:03 2015 +0100
+
+    Initial commit
+
+ .idea/.name                                        |   1 +
+ .idea/compiler.xml                                 |  22 +
+ .idea/copyright/profiles_settings.xml              |   3 +
+ .idea/encodings.xml                                |   4 +
+ .idea/libraries/libaries.xml                       |  10 +
+ .idea/misc.xml                                     | 241 +++++++++
+ .idea/modules.xml                                  |   8 +
+ .idea/scopes/scope_settings.xml                    |   5 +
+ .idea/uiDesigner.xml                               | 124 +++++
+ .idea/vcs.xml                                      |   6 +
+ JDBC.iml                                           |  12 +
+ src/at/tgm/insy/theexporter/Main.java              |  19 +
+ .../theexporter/cli/CommandLineController.java     | 549 +++++++++++++++++++++
+ .../insy/theexporter/connection/Connection.java    | 151 ++++++
+ .../theexporter/connection/ConnectionFactory.java  |  37 ++
+ .../theexporter/connection/MySQLConnection.java    |  33 ++
+ .../tgm/insy/theexporter/output/ConsoleOutput.java |  50 ++
+ src/at/tgm/insy/theexporter/output/FileOutput.java |  61 +++
+ .../insy/theexporter/output/OutputController.java  |  88 ++++
+ 19 files changed, 1424 insertions(+)
