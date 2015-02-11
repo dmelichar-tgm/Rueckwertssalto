@@ -14,10 +14,10 @@ import java.util.Vector;
  */
 public class Diagram_Prototype {
 
-    private static final String SERVER   = "vmwaredebian";          // vmwaredebian
-    private static final String DATABASE = "jdbcTest";              // jdbcTest
-    private static final String USERNAME = "jdbc";                  // jdbc
-    private static final String PASSWORD = "jdbc";                  // jdbc
+    private static final String SERVER   = "localhost";          // vmwaredebian
+    private static final String DATABASE = "tvprog_3chit";              // jdbcTest
+    private static final String USERNAME = "root";                  // jdbc
+    private static final String PASSWORD = "root";                  // jdbc
 
     private Hashtable<String, Table> m_tables;
 
