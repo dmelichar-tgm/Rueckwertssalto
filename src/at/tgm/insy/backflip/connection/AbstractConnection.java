@@ -26,7 +26,7 @@ public abstract class AbstractConnection {
      * @param connectionInfo A Object of the ConnectionInfo class which has all info
      * @return DataSource Object
      */
-    public abstract DataSource createConnection(ConnectionInfo connectionInfo);
+    protected abstract DataSource createConnection(ConnectionInfo connectionInfo);
 
     /**
      * Creates a connection to a Database with the given information.
@@ -59,4 +59,5 @@ public abstract class AbstractConnection {
     
     /* GETTER & SETTER */
     public DatabaseMetaData getMetaData() {return metaData;}
+    public Connection getConnection() {return connection;}
 }

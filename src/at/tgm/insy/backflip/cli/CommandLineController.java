@@ -1,5 +1,6 @@
 package at.tgm.insy.backflip.cli;
 
+import at.tgm.insy.backflip.config.ConfigUtil;
 import at.tgm.insy.backflip.model.ConnectionInfo;
 import at.tgm.insy.backflip.model.DatabaseTypes;
 import org.apache.commons.cli2.*;
@@ -25,9 +26,11 @@ public class CommandLineController {
     private String user = "";
     private String password = "";
     private String database = "";
+    
+    private String graphvizBinPath = "";
+    private String outputDirectory = "";
+    private String outputType = "";
     private DatabaseTypes databaseType = null;
-    private String outputFile = "";
-    private String table = "";
     
     private ConnectionInfo connectionInfo;
 
@@ -42,13 +45,10 @@ public class CommandLineController {
                 .withName("options")
                 .withOption(this.buildHelp())
                 .withOption(this.buildDatabase())
-                .withOption(this.buildTable())
                 .withOption(this.buildHost())
                 .withOption(this.buildUser())
                 .withOption(this.buildPassword())
                 .withOption(this.buildPasswordPrompt())
-                .withOption(this.buildDatabaseType())
-                .withOption(this.buildOutputFile())
                 .create();
 
         // HelpFormatter
@@ -202,78 +202,7 @@ public class CommandLineController {
                 .create();
     }
 
-    /**
-     * Output File Argument
-     * Here Apache's validator is being used to check the argument
-     * Short:   -of
-     * Long:    --outputfile
-     *
-     * @return Option for the output file
-     */
-    private Option buildOutputFile() {
-        return optionBuilder
-                .withLongName("outputfile")
-                .withShortName("of")
-                .withRequired(false)
-                .withDescription("Set a name for the file in which the output will be created\nExample: output.txt"
-                )
-                .withArgument(
-                        argumentBuilder
-                                .withName("file path")
-                                .withMinimum(1)
-                                .withMaximum(1)
-                                        //.withValidator(fileValidator)
-                                .create()
-                )
-                .create();
-    }
-
-    /**
-     * Option databaseType
-     * Short:   -dt
-     * Long:    --databaseType
-     *
-     * @return Option for the database type
-     */
-    private Option buildDatabaseType() {
-        return optionBuilder
-                .withLongName("databaseType")
-                .withShortName("dt")
-                .withRequired(false)
-                .withDescription("Please specify which database you have, i.e. MySQL, PostgreSQL, etc.\n")
-                .withArgument(
-                        argumentBuilder
-                                .withName("databaseType")
-                                .withMinimum(1)
-                                .withMaximum(1)
-                                .create()
-                )
-                .create();
-    }
-
-    /**
-     * Required Table Argument
-     * Short:   -T
-     * Long:    --Table
-     *
-     * @return Option for the table
-     */
-    private Option buildTable() {
-        return optionBuilder
-                .withLongName("Table")
-                .withShortName("T")
-                .withRequired(false)
-                .withDescription("REQUIRED\nNeeded for the FROM-Clause for the Statement\n")
-                .withArgument(
-                        argumentBuilder
-                                .withName("table")
-                                .withMinimum(1)
-                                .withMaximum(1)
-                                .create()
-                )
-                .create();
-    }
-
+    
     /**
      * Sets the values of the Attributes and validates if the arguments
      * meet the given criteria.  
@@ -286,15 +215,11 @@ public class CommandLineController {
             System.exit(1);
         } else {
             // Required Arguments: Database and Table
-            if (cl.hasOption(this.buildDatabase()) && cl.hasOption(this.buildTable()) ) {
+            if (cl.hasOption(this.buildDatabase()) ) {
                 String database = cl.getValue(buildDatabase()).toString();
-                String table = cl.getValue(buildTable()).toString();
                
                 this.database = database;
-                this.table = table;
-
                 connectionInfo.setDatabase(database);
-                connectionInfo.setTable(table);
                 
                 // Default (if nothing is set): localhost
                 if (cl.hasOption(this.buildHost())) {
@@ -333,9 +258,14 @@ public class CommandLineController {
                     connectionInfo.setPassword(password);
                 }
 
-                // Database type, for future expansion. Default: mysql
-                if (cl.hasOption(this.buildDatabaseType())) {
-                    String databaseType = cl.getValue(buildDatabaseType()).toString();
+                
+                
+                // From config.properties file
+                ConfigUtil.load();
+                
+                // Database type
+                String databaseType = ConfigUtil.databaseType;
+                if (databaseType.length() > 0) {
                     if (databaseType.equalsIgnoreCase("mysql")) {
                         this.databaseType = DatabaseTypes.MYSQL;
                         connectionInfo.setDatabaseType(DatabaseTypes.MYSQL);
@@ -350,11 +280,36 @@ public class CommandLineController {
                     this.databaseType = DatabaseTypes.MYSQL;
                     connectionInfo.setDatabaseType(DatabaseTypes.MYSQL);
                 }
-
-                // File 
-                if (cl.hasOption(this.buildOutputFile())) {
-                    this.outputFile = cl.getValue(buildOutputFile()).toString();
+                
+                
+                // output directory
+                String outputDirectory = ConfigUtil.outputDirectory;
+                if (outputDirectory.length() > 0) {
+                    this.outputDirectory = outputDirectory;
+                } else {
+                    this.outputDirectory = System.getProperty("user.dir");
                 }
+                
+                // output type
+                String outputType = ConfigUtil.outputType;
+                if (outputType.length() > 0) {
+                    this.outputType = outputType;
+                } else {
+                    this.outputType = "rm";
+                }
+                
+                // graphvizbinpath
+                String graphvizbinpath = ConfigUtil.graphvizBinPath;
+                if (graphvizbinpath.length() > 0) {
+                    this.graphvizBinPath = graphvizbinpath;
+                } else {
+                    if (outputType.equalsIgnoreCase("rm")) {
+                        this.graphvizBinPath = "";
+                    } else if (outputType.equalsIgnoreCase("eer")) {
+                        throw new IllegalArgumentException("Please add the path to your graphviz's installation's bin path to the properties file.");
+                    }
+                }
+                
             } else {
                 // ToDo
             }
@@ -383,11 +338,29 @@ public class CommandLineController {
         return databaseType;
     }
 
-    public String getOutputFile() {
-        return outputFile;
+
+    public ConnectionInfo getConnectionInfo() {
+        return connectionInfo;
     }
 
-    public String getTable() {
-        return table;
+    public DefaultOptionBuilder getOptionBuilder() {
+        return optionBuilder;
+    }
+
+    public ArgumentBuilder getArgumentBuilder() {
+        return argumentBuilder;
+    }
+
+    public String getGraphvizBinPath() {
+        return graphvizBinPath;
+    }
+
+    public String getOutputDirectory() {
+        return outputDirectory;
+    }
+
+    public String getOutputType() {
+        return outputType;
     }
 }
+ 

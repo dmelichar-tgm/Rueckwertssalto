@@ -1,8 +1,12 @@
 package at.tgm.insy.backflip.metadata;
 
+import at.tgm.insy.backflip.connection.AbstractConnection;
 import at.tgm.insy.backflip.model.*;
 
-import java.sql.*;
+import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -30,8 +34,8 @@ public class DBReader extends DBStaticFields {
     
     /* METHODS 1 */
     
-    public void setConnection(Connection connection, DatabaseMetaData metaData) {
-        this.connection = new DBConnection(connection, metaData);
+    public void setConnection(AbstractConnection connection, DatabaseMetaData metaData) {
+        this.connection = new DBConnection(connection.getConnection(), metaData);
     }
 
     public static DBReader getInstance() {
@@ -91,7 +95,7 @@ public class DBReader extends DBStaticFields {
             // current column name(foreign key)
             String fkName = res.getString(FOREIGN_KEY);
 
-            fks.put(fkName, tableName + "," + pkName);
+            fks.put(fkName, tableName + "." + pkName);
         }
         res.close();
         return fks;
