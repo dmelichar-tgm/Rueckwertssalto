@@ -311,7 +311,7 @@ public class CommandLineController {
                 }
                 
             } else {
-                // ToDo
+                throw new IllegalArgumentException("Required Argument (database) not parsed in console.");
             }
         }
     }
@@ -338,17 +338,8 @@ public class CommandLineController {
         return databaseType;
     }
 
-
     public ConnectionInfo getConnectionInfo() {
         return connectionInfo;
-    }
-
-    public DefaultOptionBuilder getOptionBuilder() {
-        return optionBuilder;
-    }
-
-    public ArgumentBuilder getArgumentBuilder() {
-        return argumentBuilder;
     }
 
     public String getGraphvizBinPath() {

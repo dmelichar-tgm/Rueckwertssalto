@@ -15,7 +15,7 @@ import java.util.Vector;
 public class Diagram_Prototype {
 
     private static final String SERVER   = "localhost";          // vmwaredebian
-    private static final String DATABASE = "tvprog_3chit";              // jdbcTest
+    private static final String DATABASE = "tvprog";              // jdbcTest
     private static final String USERNAME = "root";                  // jdbc
     private static final String PASSWORD = "root";                  // jdbc
 
@@ -37,8 +37,8 @@ public class Diagram_Prototype {
         getMetaData(connection);
         createERD(System.getProperty("user.dir") + "\\out\\");
 
+        // My system: D:\Graphviz2.38\bin
         try {
-            // My system: D:\Graphviz2.38\bin
             Runtime.getRuntime().exec("D:\\Graphviz2.38\\bin\\neato.exe -Tpdf -o\""+System.getProperty("user.dir")+"\\"+DATABASE+".pdf\" "+"D:\\Graphviz2.38\\bin\\ERD_"+DATABASE+".dot");
         } catch (IOException e) {
             e.printStackTrace();

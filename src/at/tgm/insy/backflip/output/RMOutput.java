@@ -40,7 +40,7 @@ public class RMOutput {
         StringBuilder stringBuilder = new StringBuilder();
         
         try {
-            os = new PrintWriter(new File(controller.getFilePath()));
+            os = new PrintWriter(new File(controller.getOutputDirectory()));
             
             for (TableInfo table : tables) {
                 String tableName = table.getName();

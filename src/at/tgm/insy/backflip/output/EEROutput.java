@@ -7,6 +7,7 @@ import at.tgm.insy.backflip.model.TableInfo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
@@ -39,7 +40,7 @@ public class EEROutput extends OutputController {
         StringBuilder stringBuilder = new StringBuilder();
 
         try {
-            os = new PrintWriter(new File(controller.getFilePath()));
+            os = new PrintWriter(new File(controller.getOutputDirectory() + ".dot "));
             
             // START
             stringBuilder.append("digraph G {\n");
@@ -53,7 +54,7 @@ public class EEROutput extends OutputController {
                              .append("\" ");
                 
                 stringBuilder.append("[shape=box, label=<\n").append(createIndent(4)).append("<table>\n").append(createIndent(5)).append("<tr>")
-                                    .append("<th>").append(table.getName()).append("</th>")
+                                    .append("<td><b>").append(table.getName()).append("</b></td>")
                                 .append("</tr>\n");
                 
                 // primary keys
@@ -76,10 +77,7 @@ public class EEROutput extends OutputController {
                 
                 stringBuilder.append(createIndent(4)).append("</table>\n").append(createIndent(3)).append(">];\n");
             }
-            
 
-            //System.out.println(stringBuilder.toString());
-            
             /* ToDo
             List<ERRelationshipInfo> relationships = dbReader.getRelationships(null, null);
             for (ERRelationshipInfo relationship : relationships) {
@@ -90,21 +88,31 @@ public class EEROutput extends OutputController {
             }
             */
             
+            stringBuilder.append("}");
             os.print(stringBuilder);
-            os.close();
             dbReader.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            if (os != null) {
+                os.close();
+            }
             generateGraphFromDot();
         }
     }
 
     private void generateGraphFromDot() {
-        
-        
+        try {
+            String executable = controller.getGraphvizBinPath() + "\\neato.exe";
+            String output = "\"" + controller.getOutputDirectory() + ".pdf" + "\"";
+            String input = controller.getOutputDirectory() + ".dot";
+            Runtime.getRuntime().exec(executable + " -Tpfd -o " + output + " " + input);
+            // System.out.println(executable + " -Tpdf -o " + output + " " + input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     private String createIndent(int ammount) {

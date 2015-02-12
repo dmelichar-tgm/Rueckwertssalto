@@ -11,21 +11,24 @@ import at.tgm.insy.backflip.connection.ConnectionFactory;
 public class OutputController {
     
     private CommandLineController commandLineController;
-    private String filepath;
+    private String outputDirectory;
+    private String graphvizBinPath;
+    
     
     //public abstract void createOutput();
     
     public void init(CommandLineController commandLineController) {
         this.commandLineController = commandLineController;
-        this.filepath = this.commandLineController.getOutputDirectory();
+        this.outputDirectory = this.commandLineController.getOutputDirectory();
+        this.graphvizBinPath = this.commandLineController.getGraphvizBinPath();
 
         if (commandLineController.getOutputType().equalsIgnoreCase("rm")) {
-            filepath += "\\rm_" + commandLineController.getDatabase() + ".txt";
+            outputDirectory += "\\rm_" + commandLineController.getDatabase() + ".txt";
             RMOutput rmOutput = new RMOutput(createConnection());
             rmOutput.setController(this);
             rmOutput.createOutput();
         } else if (commandLineController.getOutputType().equalsIgnoreCase("eer")) {
-            filepath += "\\eer_" + commandLineController.getDatabase() + ".dot";
+            outputDirectory += "\\eer_" + commandLineController.getDatabase();
             EEROutput eerOutput = new EEROutput(createConnection());
             eerOutput.setController(this);
             eerOutput.createOutput();
@@ -44,6 +47,8 @@ public class OutputController {
     }
     
     
-    public String getFilePath() {return this.filepath;}
+    public String getOutputDirectory() {return this.outputDirectory;}
+    
+    public String getGraphvizBinPath() {return this.graphvizBinPath;}
     
 }
