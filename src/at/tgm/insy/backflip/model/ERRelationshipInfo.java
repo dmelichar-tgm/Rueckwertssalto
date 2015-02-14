@@ -1,6 +1,7 @@
 package at.tgm.insy.backflip.model;
 
 /**
+ * All about them er-relationships.
  * @author Daniel Melichar
  * @version 03.02.2015
  */

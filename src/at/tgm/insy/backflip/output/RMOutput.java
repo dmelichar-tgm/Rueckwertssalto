@@ -15,15 +15,18 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ * Creates a text file with a relational-mapping of the database. 
  * @author Daniel Melichar
  * @version 11.02.2015
  */
-public class RMOutput {
+public class RMOutput implements Output {
     
+    /* ATTRIBUTES */
     private OutputController controller;
     private DBReader dbReader;
     private List<TableInfo> tables;
-
+    
+    /* CONSTRUCTOR */
     public RMOutput(AbstractConnection connection) {
         dbReader = new DBReader();
         dbReader.setConnection(connection, connection.getMetaData());
@@ -32,9 +35,15 @@ public class RMOutput {
             tables = dbReader.getTables(null, null);
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            System.out.println("Reading metadata..");
         }
     }
 
+    @Override
+    /**
+     * Creates the rm text file
+     */
     public void createOutput() {
         PrintWriter os = null;
         StringBuilder stringBuilder = new StringBuilder();

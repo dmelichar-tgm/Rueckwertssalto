@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Relationship base-class
  * @author Daniel Melichar
  * @version 03.02.2015
  */

@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 /**
+ * Reads all required and necessary information from the database's metadata 
  * @author Daniel Melichar
  * @version 10.02.2015
  */
@@ -51,8 +52,13 @@ public class DBReader extends DBStaticFields {
     }
     
     /* PUBLIC METHODS */
-    
-    public String[] getSchemanta() throws SQLException {
+
+    /**
+     * All schemata as String array 
+     * @return String array with all schemata
+     * @throws SQLException Connection errors
+     */
+    public String[] getSchemata() throws SQLException {
         if (DatabaseTypes.ORACLE.selected(dbType)) {
             return connection.getSchemata();
         } else if (DatabaseTypes.MYSQL.selected(dbType)) {
@@ -64,6 +70,15 @@ public class DBReader extends DBStaticFields {
         return connection.getSchemata();
     }
 
+    /**
+     * Set with all primary keys as string.
+     * Requires a database's catalog or schema and a table* 
+     * @param catalog database catalog
+     * @param schema database schema
+     * @param table database table
+     * @return Set with all primary keys as string
+     * @throws SQLException Connection error
+     */
     public HashSet<String> getPKs(String catalog, String schema, String table) throws SQLException {
         ResultSet res = getPKSet(catalog, schema, table);
         if (res == null) {
@@ -79,14 +94,26 @@ public class DBReader extends DBStaticFields {
         return pks;
     }
 
+    /**
+     * Receives all primary keys in a map, where key is equal to the foreign keys name and
+     * the value is equal to the foreign table and the references attribute there.
+     * Requires a database catalog or schema and a table 
+     * @param catalog database catalog
+     * @param schema database schema
+     * @param table database table
+     * @return Map with all primary keys
+     * @throws SQLException Connection errors
+     */
     public HashMap<String, String> getFKs(String catalog, String schema, String table) throws SQLException {
         HashMap<String, String> fks = new HashMap<String, String>();
         ResultSet res;
+        
         try {
             res = connection.getMetaData().getImportedKeys(catalog, schema, table);
         } catch (Exception e) {
             return fks;
         }
+        
         while (res.next()) {
             // reference table name
             String tableName = res.getString(TABLE_NAME);
@@ -101,6 +128,15 @@ public class DBReader extends DBStaticFields {
         return fks;
     }
 
+    /**
+     * Gets a sorted list of objects which include more info of all
+     * tables in the database 
+     * Requires a database catalog or schema. 
+     * @param catalog Database catalog
+     * @param schema Database schema
+     * @return Sorted list with all tables
+     * @throws SQLException Connection error
+     */
     public List<TableInfo> getTables(String catalog, String schema) throws SQLException {
         if (connection == null) {
             return null;
@@ -125,6 +161,15 @@ public class DBReader extends DBStaticFields {
         return tableList;
     }
 
+    /**
+     * Receives a list of objects which include information about
+     * all relationships in the database.
+     * Requires a database catalog or schema
+     * @param catalog Database catalog
+     * @param schema Database schema
+     * @return list with all info of the relationships
+     * @throws SQLException Connection errors
+     */
     public List<ERRelationshipInfo> getRelationships(String catalog, String schema) throws SQLException {
         if (connection == null) {
             return null;
@@ -161,7 +206,8 @@ public class DBReader extends DBStaticFields {
                     }
                     continue;
                 }
-
+                
+                // set info in Object
                 ERRelationshipInfo rInfo = new ERRelationshipInfo();
                 rInfo.setChildTable(tableName);
                 rInfo.setParentTable(referenceTableName);
@@ -190,7 +236,7 @@ public class DBReader extends DBStaticFields {
 
 
     /* PRIVATE METHODS */
-    
+
     private ResultSet getPKSet(String catalog, String schema, String table) {
         try {
             return connection.getMetaData().getPrimaryKeys(catalog, schema, table);

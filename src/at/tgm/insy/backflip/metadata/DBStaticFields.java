@@ -1,6 +1,7 @@
 package at.tgm.insy.backflip.metadata;
 
 /**
+ * Includes some possible queries for the JDBC get-Methods for ease-of-use.
  * @author Daniel Melichar
  * @version 10.02.2015
  */

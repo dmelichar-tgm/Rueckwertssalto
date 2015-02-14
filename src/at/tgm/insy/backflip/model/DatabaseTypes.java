@@ -1,6 +1,7 @@
 package at.tgm.insy.backflip.model;
 
 /**
+ * (Some) possible databases.
  * @author Daniel Melichar
  * @version 10.02.2015
  */

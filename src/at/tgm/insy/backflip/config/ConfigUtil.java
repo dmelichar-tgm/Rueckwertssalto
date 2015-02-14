@@ -4,16 +4,24 @@ import java.io.*;
 import java.util.Properties;
 
 /**
+ * Used to create and read the config.properties file.
+ *  
  * @author Daniel Melichar
  * @version 11.02.2015
  */
 public class ConfigUtil {
     
+    /* ATTRIBUTES WITH DEFAULTS */
     public static String databaseType = "mysql";
     public static String outputDirectory = "C:\\Users\\Daniel\\Desktop";
     public static String outputType = "eer";
     public static String graphvizBinPath = "D:\\Graphviz2.38\\bin";
-    
+
+    /* METHODS */
+
+    /**
+     * Load information from the properties file 
+     */
     public static void load() {
         Properties prop = new Properties();
         InputStream input = null;
@@ -43,6 +51,9 @@ public class ConfigUtil {
         }
     }
 
+    /**
+     * Store the defaults into the properties file 
+     */
     public static void store() {
         Properties prop = new Properties();
         OutputStream output = null;

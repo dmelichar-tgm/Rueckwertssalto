@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * All about that index
  * @author Daniel Melichar
  * @version 03.02.2015
  */

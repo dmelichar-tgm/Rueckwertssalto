@@ -41,7 +41,9 @@ public abstract class AbstractConnection {
             
             metaData = connection.getMetaData();
         } catch (SQLException e) {
-           e.printStackTrace();
+            System.out.println("Could not connect to database: " + e.getMessage());
+        } finally {
+            System.out.println("Established connection..");
         }
     }
 
@@ -53,7 +55,10 @@ public abstract class AbstractConnection {
             connection.close();
             connection = null;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Could not disconnect to database: " + e.getMessage());
+        } finally {
+            System.out.println("Disconnected from database..");
+            System.out.println("Goodbye!");
         }
     }
     

@@ -1,6 +1,7 @@
 package at.tgm.insy.backflip.model;
 
 /**
+ * All about that connection
  * @author Daniel Melichar
  * @version 03.02.2015
  */

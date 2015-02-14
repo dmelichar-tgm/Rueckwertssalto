@@ -27,6 +27,7 @@ public class CommandLineController {
     private String password = "";
     private String database = "";
     
+    /* PROPERTIES FILE */
     private String graphvizBinPath = "";
     private String outputDirectory = "";
     private String outputType = "";
@@ -34,7 +35,8 @@ public class CommandLineController {
     
     private ConnectionInfo connectionInfo;
 
-    /* CONSTRUCTORS */
+    /* CONSTRUCTOR */
+
     public CommandLineController(String[] args) {
         optionBuilder = new DefaultOptionBuilder();
         argumentBuilder = new ArgumentBuilder();
