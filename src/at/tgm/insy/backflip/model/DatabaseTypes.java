@@ -10,7 +10,7 @@ public enum DatabaseTypes {
     MYSQL("MySQL"),
     POSTGRES("PostgreSQL");
 
-    private String type;
+    private final String type;
 
     private DatabaseTypes(String type){
         this.type = type;

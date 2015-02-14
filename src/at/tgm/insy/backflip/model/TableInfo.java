@@ -11,9 +11,9 @@ import java.util.List;
 public class TableInfo {
 
     private String name;
-    private String type;
-    private String definition;
-    private List<AttributeInfo> attributes;
+    private final String type;
+    private final String definition;
+    private final List<AttributeInfo> attributes;
     private List<IndexInfo> indexes;
 
     public TableInfo() {
@@ -32,15 +32,7 @@ public class TableInfo {
         this.name = name;
     }
 
-    public String getDefinition() {
-        return definition;
-    }
-
-    public void setDefinition(String definition) {
-        this.definition = definition;
-    }
-
-    public void addAttribute(AttributeInfo info) {
+    void addAttribute(AttributeInfo info) {
         info.setParentTable(name);
         attributes.add(info);
     }
@@ -55,25 +47,10 @@ public class TableInfo {
         return attributes;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public void setIndexes(List<IndexInfo> indexes) {
         this.indexes = indexes;
     }
 
-    public void addIndex(IndexInfo index) {
-        indexes.add(index);
-    }
-
-    public List<IndexInfo> getIndexes() {
-        return indexes;
-    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -81,13 +58,11 @@ public class TableInfo {
 
         TableInfo tableInfo = (TableInfo) o;
 
-        if (attributes != null ? !attributes.equals(tableInfo.attributes) : tableInfo.attributes != null) return false;
+        if (!attributes.equals(tableInfo.attributes)) return false;
         if (definition != null ? !definition.equals(tableInfo.definition) : tableInfo.definition != null) return false;
         if (indexes != null ? !indexes.equals(tableInfo.indexes) : tableInfo.indexes != null) return false;
-        if (name != null ? !name.equals(tableInfo.name) : tableInfo.name != null) return false;
-        if (type != null ? !type.equals(tableInfo.type) : tableInfo.type != null) return false;
+        return !(name != null ? !name.equals(tableInfo.name) : tableInfo.name != null) && !(type != null ? !type.equals(tableInfo.type) : tableInfo.type != null);
 
-        return true;
     }
 
     @Override
@@ -95,7 +70,7 @@ public class TableInfo {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (definition != null ? definition.hashCode() : 0);
-        result = 31 * result + (attributes != null ? attributes.hashCode() : 0);
+        result = 31 * result + (attributes.hashCode());
         result = 31 * result + (indexes != null ? indexes.hashCode() : 0);
         return result;
     }

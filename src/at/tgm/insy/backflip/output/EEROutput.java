@@ -27,7 +27,7 @@ public class EEROutput implements Output {
 
     /* ATTRIBUTES */
     private OutputController controller;
-    private DBReader dbReader;
+    private final DBReader dbReader;
     private List<TableInfo> tables;
     
     /* CONSTRUCTOR */
@@ -36,7 +36,7 @@ public class EEROutput implements Output {
         dbReader.setConnection(connection, connection.getMetaData());
 
         try {
-            tables = dbReader.getTables(null, null);
+            tables = dbReader.getTables();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -44,7 +44,6 @@ public class EEROutput implements Output {
         }
     }
 
-    @Override
     /**
      * Creates the dot and then the pdf
      */
@@ -60,7 +59,7 @@ public class EEROutput implements Output {
             stringBuilder.append(createIndent(1)).append("overlap=false\n");
             
             // TABLES
-            tables = dbReader.getTables(null, null);
+            tables = dbReader.getTables();
             for (TableInfo table : tables) {
                 stringBuilder.append(createIndent(1)).append("\"")
                              .append(table.getName())
@@ -102,7 +101,7 @@ public class EEROutput implements Output {
             }
 
             /* Relationships */
-            List<ERRelationshipInfo> relationships = dbReader.getRelationships(null, null);
+            List<ERRelationshipInfo> relationships = dbReader.getRelationships();
             for (ERRelationshipInfo relationship : relationships) {
                 int foreignKeysAmount = relationship.getKeys().keySet().toString().length();
                 if(relationship.isIdentifying()) {
@@ -184,9 +183,10 @@ public class EEROutput implements Output {
             Runtime rt = Runtime.getRuntime();
             Process proc = rt.exec(executable + " -Tpdf -o " + output + " " + input);
             int exitVal = proc.waitFor();
-            System.out.println(executable + " -Tpdf -o " + output + " " + input);
+
             if (exitVal == 1) {
                 System.out.println("Conversion finished..");
+                //System.out.println(executable + " -Tpdf -o " + output + " " + input);
             }
         } catch (IOException e) {
             e.printStackTrace();

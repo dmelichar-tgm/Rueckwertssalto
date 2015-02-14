@@ -61,18 +61,6 @@ public class ConnectionInfo {
         this.database = database;
     }
 
-    public String getTable() {
-        return table;
-    }
-
-    public void setTable(String table) {
-        this.table = table;
-    }
-
-    public DatabaseTypes getDatabaseType() {
-        return databaseType;
-    }
-
     public void setDatabaseType(DatabaseTypes databaseType) {
         this.databaseType = databaseType;
     }
@@ -100,10 +88,8 @@ public class ConnectionInfo {
         if (databaseType != that.databaseType) return false;
         if (host != null ? !host.equals(that.host) : that.host != null) return false;
         if (password != null ? !password.equals(that.password) : that.password != null) return false;
-        if (table != null ? !table.equals(that.table) : that.table != null) return false;
-        if (user != null ? !user.equals(that.user) : that.user != null) return false;
+        return !(table != null ? !table.equals(that.table) : that.table != null) && !(user != null ? !user.equals(that.user) : that.user != null);
 
-        return true;
     }
 
     @Override

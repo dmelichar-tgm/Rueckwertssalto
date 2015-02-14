@@ -47,7 +47,7 @@ public class OutputController {
      * Creates and establishes a connection 
      * @return
      */
-    public AbstractConnection createConnection() {
+    AbstractConnection createConnection() {
         AbstractConnection connection;
         ConnectionFactory factory = new ConnectionFactory();
         connection = factory.createConnection(this.commandLineController.getDatabaseType());

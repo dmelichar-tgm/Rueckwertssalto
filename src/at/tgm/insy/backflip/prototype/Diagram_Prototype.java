@@ -19,7 +19,7 @@ public class Diagram_Prototype {
     private static final String USERNAME = "root";                  // jdbc
     private static final String PASSWORD = "root";                  // jdbc
 
-    private Hashtable<String, Table> m_tables;
+    private final Hashtable<String, Table> m_tables;
 
     public static void main(String[] args) throws IOException, SQLException {
         MysqlDataSource dataSource = new MysqlDataSource();
@@ -31,7 +31,7 @@ public class Diagram_Prototype {
         new Diagram_Prototype(dataSource.getConnection());
     }
 
-    public Diagram_Prototype(Connection connection) {
+    private Diagram_Prototype(Connection connection) {
         m_tables = new Hashtable<String, Table>();
         
         getMetaData(connection);
@@ -69,7 +69,7 @@ public class Diagram_Prototype {
                 Hashtable<String, Attribute> temp_attributes = t.getAttributes();
                 ResultSet rs_primaryKeys = dbm.getPrimaryKeys(null, null, table_name);
                 while (rs_primaryKeys.next()) {
-                    temp_attributes.get(rs_primaryKeys.getString("COLUMN_NAME")).setPrimary(true);
+                    temp_attributes.get(rs_primaryKeys.getString("COLUMN_NAME")).setPrimary();
                 }
                 rs_primaryKeys.close();
 

@@ -21,15 +21,13 @@ public class DBReader extends DBStaticFields {
 
     private DBConnection connection;
 
-    private String dbType;
-
     private List<String> tableNames;
 
     /* CONSTRUCTOR(S) */
     
     public DBReader() {
         connection = null;
-        dbType = "";
+        String dbType = "";
         tableNames = null;
     }
     
@@ -37,11 +35,6 @@ public class DBReader extends DBStaticFields {
     
     public void setConnection(AbstractConnection connection, DatabaseMetaData metaData) {
         this.connection = new DBConnection(connection.getConnection(), metaData);
-    }
-
-    public static DBReader getInstance() {
-        if (instace == null) {instace = new DBReader();}
-        return instace;
     }
 
     public void close() throws SQLException {
@@ -52,23 +45,6 @@ public class DBReader extends DBStaticFields {
     }
     
     /* PUBLIC METHODS */
-
-    /**
-     * All schemata as String array 
-     * @return String array with all schemata
-     * @throws SQLException Connection errors
-     */
-    public String[] getSchemata() throws SQLException {
-        if (DatabaseTypes.ORACLE.selected(dbType)) {
-            return connection.getSchemata();
-        } else if (DatabaseTypes.MYSQL.selected(dbType)) {
-            return connection.getCatalogs();
-        } else if (DatabaseTypes.POSTGRES.selected(dbType)) {
-            return connection.getCatalogs();
-        }
-
-        return connection.getSchemata();
-    }
 
     /**
      * Set with all primary keys as string.
@@ -132,17 +108,15 @@ public class DBReader extends DBStaticFields {
      * Gets a sorted list of objects which include more info of all
      * tables in the database 
      * Requires a database catalog or schema. 
-     * @param catalog Database catalog
-     * @param schema Database schema
      * @return Sorted list with all tables
      * @throws SQLException Connection error
      */
-    public List<TableInfo> getTables(String catalog, String schema) throws SQLException {
+    public List<TableInfo> getTables() throws SQLException {
         if (connection == null) {
             return null;
         }
 
-        tableNames = connection.getTables(catalog, schema);
+        tableNames = connection.getTables(null);
 
         List<TableInfo> tableList = new ArrayList<TableInfo>();
         TableInfo tbInfo;
@@ -151,9 +125,9 @@ public class DBReader extends DBStaticFields {
             // name
             tbInfo.setName(tableName);
             // attributes
-            tbInfo.addAttributes(getAttributes(catalog, schema, tableName));
+            tbInfo.addAttributes(getAttributes(null, tableName));
             // indexes
-            tbInfo.setIndexes(getIndexes(catalog, schema, tableName));
+            tbInfo.setIndexes(getIndexes(null, tableName));
 
             tableList.add(tbInfo);
         }
@@ -165,26 +139,24 @@ public class DBReader extends DBStaticFields {
      * Receives a list of objects which include information about
      * all relationships in the database.
      * Requires a database catalog or schema
-     * @param catalog Database catalog
-     * @param schema Database schema
      * @return list with all info of the relationships
      * @throws SQLException Connection errors
      */
-    public List<ERRelationshipInfo> getRelationships(String catalog, String schema) throws SQLException {
+    public List<ERRelationshipInfo> getRelationships() throws SQLException {
         if (connection == null) {
             return null;
         }
         if (tableNames == null) {
-            tableNames = connection.getTables(catalog, schema);
+            tableNames = connection.getTables(null);
         }
         
         List<ERRelationshipInfo> relationList = new ArrayList<ERRelationshipInfo>();
         PreparedStatement preparedStatement = null;
         
         for (String tableName : tableNames) {
-            HashSet<String> pks = getPKs(catalog, schema, tableName);
+            HashSet<String> pks = getPKs(null, null, tableName);
             Map<String, ERRelationshipInfo> relationMap = new HashMap<String, ERRelationshipInfo>();
-            ResultSet res = connection.getMetaData().getImportedKeys(catalog, schema, tableName);
+            ResultSet res = connection.getMetaData().getImportedKeys(null, null, tableName);
 
             while (res.next()) {
                 //relation name
@@ -215,10 +187,10 @@ public class DBReader extends DBStaticFields {
                 rInfo.addKey(pkName, fkName);
                 
                 if (pks.contains(fkName)) {
-                    rInfo.setIdentifying(true);
-                    rInfo.setParentRequired(true);
+                    rInfo.setIdentifying();
+                    rInfo.setParentRequired();
                 } else {
-                    rInfo.setNonIdentifying(true);
+                    rInfo.setNonIdentifying();
                 }
 
                 relationMap.put(referenceTableName, rInfo);
@@ -226,11 +198,7 @@ public class DBReader extends DBStaticFields {
             }
             res.close();
         }
-        
-        if (preparedStatement != null) {
-            preparedStatement.close();
-            preparedStatement = null;
-        }
+
         return relationList;
     }
 
@@ -245,11 +213,11 @@ public class DBReader extends DBStaticFields {
             return null;
         }
     }
-    
-   
-    private List<IndexInfo> getIndexes(String catalog, String schema, String table) throws SQLException {
+
+
+    private List<IndexInfo> getIndexes(String catalog, String table) throws SQLException {
         List<IndexInfo> indexes = new ArrayList<IndexInfo>();
-        indexes.addAll(getIndexInfoes(catalog, schema, table));
+        indexes.addAll(getIndexInfoes(null, null, table));
         return indexes;
     }
 
@@ -323,10 +291,10 @@ public class DBReader extends DBStaticFields {
         return uniques;
     }
 
-    private List<AttributeInfo> getAttributes(String catalog, String schema, String tbName) throws SQLException {
-        HashSet<String> pks = getPKs(catalog, schema, tbName);
-        HashMap<String, String> fks = getFKs(catalog, schema, tbName);
-        ResultSet attrSet = connection.getMetaData().getColumns(catalog, schema, tbName, "%");
+    private List<AttributeInfo> getAttributes(String catalog, String tbName) throws SQLException {
+        HashSet<String> pks = getPKs(null, null, tbName);
+        HashMap<String, String> fks = getFKs(null, null, tbName);
+        ResultSet attrSet = connection.getMetaData().getColumns(null, null, tbName, "%");
         List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
         List<String> attrs = new ArrayList<String>();
         

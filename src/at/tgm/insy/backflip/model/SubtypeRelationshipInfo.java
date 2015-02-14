@@ -15,26 +15,10 @@ public class SubtypeRelationshipInfo extends RelationshipInfo{
     }
     
     @Override
-    protected void init() {
+    void init() {
         super.init();
         discriminatorAttribute = "";
         isConclusive = false;
-    }
-
-    public String getDiscriminatorAttribute() {
-        return discriminatorAttribute;
-    }
-
-    public void setDiscriminatorAttribute(String discriminatorAttribute) {
-        this.discriminatorAttribute = discriminatorAttribute;
-    }
-
-    public boolean isConclusive() {
-        return isConclusive;
-    }
-
-    public void setConclusive(boolean isConclusive) {
-        this.isConclusive = isConclusive;
     }
 
     @Override
@@ -45,11 +29,8 @@ public class SubtypeRelationshipInfo extends RelationshipInfo{
 
         SubtypeRelationshipInfo that = (SubtypeRelationshipInfo) o;
 
-        if (isConclusive != that.isConclusive) return false;
-        if (discriminatorAttribute != null ? !discriminatorAttribute.equals(that.discriminatorAttribute) : that.discriminatorAttribute != null)
-            return false;
+        return isConclusive == that.isConclusive && !(discriminatorAttribute != null ? !discriminatorAttribute.equals(that.discriminatorAttribute) : that.discriminatorAttribute != null);
 
-        return true;
     }
 
     @Override

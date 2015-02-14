@@ -20,7 +20,7 @@ public class ERRelationshipInfo extends RelationshipInfo{
     }
 
     @Override
-    protected void init() {
+    void init() {
         super.init();
         verbPhraseParent = "";
         verbPhraseChild = "";
@@ -30,60 +30,28 @@ public class ERRelationshipInfo extends RelationshipInfo{
         isParentRequired = false;
     }
 
-    public String getVerbPhraseParent() {
-        return verbPhraseParent;
-    }
-
-    public void setVerbPhraseParent(String verbPhraseParent) {
-        this.verbPhraseParent = verbPhraseParent;
-    }
-
-    public String getVerbPhraseChild() {
-        return verbPhraseChild;
-    }
-
-    public void setVerbPhraseChild(String verbPhraseChild) {
-        this.verbPhraseChild = verbPhraseChild;
-    }
-
     public boolean isIdentifying() {
         return isIdentifying;
     }
 
-    public void setIdentifying(boolean isIdentifying) {
-        this.isIdentifying = isIdentifying;
+    public void setIdentifying() {
+        this.isIdentifying = true;
     }
 
     public boolean isNonIdentifying() {
         return isNonIdentifying;
     }
 
-    public void setNonIdentifying(boolean isNonIdentifying) {
-        this.isNonIdentifying = isNonIdentifying;
+    public void setNonIdentifying() {
+        this.isNonIdentifying = true;
     }
 
     public boolean isMultiToMulti() {
         return isMultiToMulti;
     }
 
-    public void setMultiToMulti(boolean isMultiToMulti) {
-        this.isMultiToMulti = isMultiToMulti;
-    }
-
-    public boolean isParentRequired() {
-        return isParentRequired;
-    }
-
-    public void setParentRequired(boolean isParentRequired) {
-        this.isParentRequired = isParentRequired;
-    }
-
-    public String getErIndex() {
-        return erIndex;
-    }
-
-    public void setErIndex(String erIndex) {
-        this.erIndex = erIndex;
+    public void setParentRequired() {
+        this.isParentRequired = true;
     }
 
     @Override
@@ -99,12 +67,8 @@ public class ERRelationshipInfo extends RelationshipInfo{
         if (isNonIdentifying != that.isNonIdentifying) return false;
         if (isParentRequired != that.isParentRequired) return false;
         if (erIndex != null ? !erIndex.equals(that.erIndex) : that.erIndex != null) return false;
-        if (verbPhraseChild != null ? !verbPhraseChild.equals(that.verbPhraseChild) : that.verbPhraseChild != null)
-            return false;
-        if (verbPhraseParent != null ? !verbPhraseParent.equals(that.verbPhraseParent) : that.verbPhraseParent != null)
-            return false;
+        return !(verbPhraseChild != null ? !verbPhraseChild.equals(that.verbPhraseChild) : that.verbPhraseChild != null) && !(verbPhraseParent != null ? !verbPhraseParent.equals(that.verbPhraseParent) : that.verbPhraseParent != null);
 
-        return true;
     }
 
     @Override

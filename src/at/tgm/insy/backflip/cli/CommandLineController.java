@@ -22,9 +22,6 @@ public class CommandLineController {
     private final DefaultOptionBuilder optionBuilder;
     private final ArgumentBuilder argumentBuilder;
 
-    private String host = "";
-    private String user = "";
-    private String password = "";
     private String database = "";
     
     /* PROPERTIES FILE */
@@ -32,8 +29,8 @@ public class CommandLineController {
     private String outputDirectory = "";
     private String outputType = "";
     private DatabaseTypes databaseType = null;
-    
-    private ConnectionInfo connectionInfo;
+
+    private final ConnectionInfo connectionInfo;
 
     /* CONSTRUCTOR */
 
@@ -224,39 +221,42 @@ public class CommandLineController {
                 connectionInfo.setDatabase(database);
                 
                 // Default (if nothing is set): localhost
+                String host1 = "";
                 if (cl.hasOption(this.buildHost())) {
                     String host = cl.getValue(buildHost()).toString();
-                    this.host = host;
+                    host1 = host;
                     connectionInfo.setHost(host);
                 } else {
-                    this.host = "localhost";
-                    connectionInfo.setHost(host);
+                    host1 = "localhost";
+                    connectionInfo.setHost(host1);
                 }
 
                 // Default: System's user name
+                String user1 = "";
                 if (cl.hasOption(this.buildUser())) {
                     String user = cl.getValue(buildUser()).toString();
-                    this.user = user;
+                    user1 = user;
                     connectionInfo.setUser(user);
                 } else {
-                    this.user = System.getProperty("user.name");
+                    user1 = System.getProperty("user.name");
                     connectionInfo.setUser(System.getProperty("user.name"));
                 }
 
                 // Default password: none
+                String password1 = "";
                 if (cl.hasOption(this.buildPassword())) {
                     String password = cl.getValue(buildPassword()).toString();
-                    this.password = password;
+                    password1 = password;
                     connectionInfo.setPassword(password);
                 } else {
-                    this.password = "";
+                    password1 = "";
                     connectionInfo.setPassword("");
                 }
                 
                 // Password prompt in console
                 if (cl.hasOption(this.buildPasswordPrompt())) {
                     String password = new String(System.console().readPassword("Password: "));
-                    this.password = password;
+                    password1 = password;
                     connectionInfo.setPassword(password);
                 }
 
@@ -319,18 +319,6 @@ public class CommandLineController {
     }
 
     /* GETTER & SETTER */
-
-    public String getHost() {
-        return host;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public String getPassword() {
-        return password;
-    }
 
     public String getDatabase() {
         return database;

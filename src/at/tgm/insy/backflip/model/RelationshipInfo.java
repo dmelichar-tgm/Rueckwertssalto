@@ -9,23 +9,19 @@ import java.util.Map;
  * @version 03.02.2015
  */
 public class RelationshipInfo {
-    
-    protected String name;
-    protected String parentTable;
-    protected String childTable;
-    protected String definition;
-    protected Map<String, String> keys;
-    
-    protected void init() {
+
+    private String name;
+    private String parentTable;
+    private String childTable;
+    private String definition;
+    private Map<String, String> keys;
+
+    void init() {
         name = "";
         parentTable = "";
         childTable = "";
         definition = "";
         keys = new HashMap<String, String>();
-    }
-
-    public String getName() {
-        return name;
     }
 
     public void setName(String name) {
@@ -52,16 +48,8 @@ public class RelationshipInfo {
         return definition;
     }
 
-    public void setDefinition(String definition) {
-        this.definition = definition;
-    }
-
     public void addKey(String parentKey, String childKey) {
         keys.put(parentKey, childKey);
-    }
-
-    public void removeKey(String parentKey) {
-        keys.remove(parentKey);
     }
 
     public Map<String, String> getKeys() {
@@ -77,10 +65,8 @@ public class RelationshipInfo {
         if (childTable != null ? !childTable.equals(that.childTable) : that.childTable != null) return false;
         if (definition != null ? !definition.equals(that.definition) : that.definition != null) return false;
         if (keys != null ? !keys.equals(that.keys) : that.keys != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (parentTable != null ? !parentTable.equals(that.parentTable) : that.parentTable != null) return false;
+        return !(name != null ? !name.equals(that.name) : that.name != null) && !(parentTable != null ? !parentTable.equals(that.parentTable) : that.parentTable != null);
 
-        return true;
     }
 
     @Override

@@ -1,6 +1,9 @@
 package at.tgm.insy.backflip.metadata;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,16 +50,6 @@ public class DBConnection extends DBStaticFields {
     /* GETTER & SETTER - custom */
 
     /**
-     * Returns a prepared statement 
-     * @param sql Query for database
-     * @return prepared statement
-     * @throws SQLException Connection errors
-     */
-    public PreparedStatement getPreparedSql(String sql) throws SQLException {
-        return connection.prepareStatement(sql);
-    }
-
-    /**
      * Receives the catalogs from the database 
      * @return String array with all catalogs
      * @throws SQLException Connection errors
@@ -98,33 +91,19 @@ public class DBConnection extends DBStaticFields {
      * Recieves a sorted list with all Tables in the database.
      * Requires either a catalog or a schema 
      * @param catalog Database catalog
-     * @param schema Database schema
      * @return Sorted list with all table
      * @throws SQLException Connection errors
      */
-    public List<String> getTables(String catalog, String schema) throws SQLException {
+    public List<String> getTables(String catalog) throws SQLException {
         List<String> tables = new ArrayList<String>();
         String[] names = {"TABLE", "SYSTEM TABLE"};         // ToDo needs testing
-        ResultSet res = metaData.getTables(catalog, schema, "%", names);
+        ResultSet res = metaData.getTables(null, null, "%", names);
         while (res.next()) {
             tables.add(res.getString("TABLE_NAME"));
         }
         res.close();
 
         return tables;
-    }
-
-    /**
-     * Receives all Attributes from a table.
-     * Requires a catalog or schema and the table which shall be analyzed. 
-     * @param catalog Database catalog
-     * @param schema Database schema
-     * @param table Database table
-     * @return ResultSet with all attributes
-     * @throws SQLException Connection errors
-     */
-    public ResultSet getAttributes(String catalog, String schema,String table) throws SQLException {
-        return metaData.getColumns(catalog, schema, table, "%");
     }
 
     
@@ -139,22 +118,19 @@ public class DBConnection extends DBStaticFields {
      * Set the metadata from a connection
      * @param metaData DatabaseMetaData object
      */
-    public void setMetaData(DatabaseMetaData metaData) {
+    void setMetaData(DatabaseMetaData metaData) {
         try {
             this.metaData = metaData;
         } catch(NullPointerException e) {
             System.out.println("Could not read information from connection: " + e.getMessage());
         }
     }
-    Connection getConnection() {
-        return connection;
-    }
 
     /**
      * Set the connection
      * @param connection Connection object
      */
-    public void setConnection(Connection connection) {
+    void setConnection(Connection connection) {
         try {
             this.connection = connection;
         } catch(NullPointerException e) {

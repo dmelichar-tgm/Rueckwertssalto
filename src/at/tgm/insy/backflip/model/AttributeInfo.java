@@ -10,7 +10,7 @@ public class AttributeInfo {
     private String parentTable;
     private String name;
     private DatatypeInfo dataType;
-    private String length;
+    private final String length;
     private String definition;
     private boolean isPK;
     private boolean isFK;
@@ -42,18 +42,6 @@ public class AttributeInfo {
         this.dataType = dataType;
     }
 
-    public String getLength() {
-        return length;
-    }
-
-    public void setLength(String length) {
-        this.length = length;
-    }
-
-    public String getDefinition() {
-        return definition;
-    }
-
     public void setDefinition(String definition) {
         this.definition = definition;
     }
@@ -66,16 +54,8 @@ public class AttributeInfo {
         this.isPK = isPK;
     }
 
-    public boolean isNotNull() {
-        return isNotNull;
-    }
-
     public void setNotNull(boolean isNotNull) {
         this.isNotNull = isNotNull;
-    }
-
-    public String getParentTable() {
-        return parentTable;
     }
 
     public void setParentTable(String parentTable) {
@@ -117,10 +97,8 @@ public class AttributeInfo {
         if (dataType != null ? !dataType.equals(that.dataType) : that.dataType != null) return false;
         if (definition != null ? !definition.equals(that.definition) : that.definition != null) return false;
         if (length != null ? !length.equals(that.length) : that.length != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (parentTable != null ? !parentTable.equals(that.parentTable) : that.parentTable != null) return false;
+        return !(name != null ? !name.equals(that.name) : that.name != null) && !(parentTable != null ? !parentTable.equals(that.parentTable) : that.parentTable != null);
 
-        return true;
     }
 
     @Override

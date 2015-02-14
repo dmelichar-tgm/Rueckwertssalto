@@ -23,7 +23,7 @@ public class RMOutput implements Output {
     
     /* ATTRIBUTES */
     private OutputController controller;
-    private DBReader dbReader;
+    private final DBReader dbReader;
     private List<TableInfo> tables;
     
     /* CONSTRUCTOR */
@@ -32,7 +32,7 @@ public class RMOutput implements Output {
         dbReader.setConnection(connection, connection.getMetaData());
 
         try {
-            tables = dbReader.getTables(null, null);
+            tables = dbReader.getTables();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -40,7 +40,6 @@ public class RMOutput implements Output {
         }
     }
 
-    @Override
     /**
      * Creates the rm text file
      */

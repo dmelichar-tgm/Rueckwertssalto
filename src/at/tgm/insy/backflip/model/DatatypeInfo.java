@@ -8,8 +8,8 @@ package at.tgm.insy.backflip.model;
 public class DatatypeInfo {
     
     private String name;
-    private String length;
-    private String description;
+    private final String length;
+    private final String description;
     
     public DatatypeInfo() {
         name = "";
@@ -25,22 +25,6 @@ public class DatatypeInfo {
         this.name = name;
     }
 
-    public String getLength() {
-        return length;
-    }
-
-    public void setLength(String length) {
-        this.length = length;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -49,10 +33,8 @@ public class DatatypeInfo {
         DatatypeInfo that = (DatatypeInfo) o;
 
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
-        if (length != null ? !length.equals(that.length) : that.length != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        return !(length != null ? !length.equals(that.length) : that.length != null) && !(name != null ? !name.equals(that.name) : that.name != null);
 
-        return true;
     }
 
     @Override

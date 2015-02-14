@@ -12,7 +12,7 @@ public class IndexInfo {
     
     private String name;
     private String parentEntity;
-    private List<String> attributes;
+    private final List<String> attributes;
     private boolean isUnique;
     
     public IndexInfo() {
@@ -21,31 +21,16 @@ public class IndexInfo {
         attributes = new ArrayList<String>();
     }
 
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getParentEntity() {
-        return parentEntity;
     }
 
     public void setParentEntity(String parentEntity) {
         this.parentEntity = parentEntity;
     }
 
-    public List<String> getAttributes() {
-        return attributes;
-    }
-
     public void addAttribute(String attrName) {
         attributes.add(attrName);
-    }
-    public boolean isUnique() {
-        return isUnique;
     }
 
     public void setUnique(boolean isUnique) {
@@ -60,9 +45,8 @@ public class IndexInfo {
         IndexInfo indexInfo = (IndexInfo) o;
 
         if (isUnique != indexInfo.isUnique) return false;
-        if (attributes != null ? !attributes.equals(indexInfo.attributes) : indexInfo.attributes != null) return false;
-        if (name != null ? !name.equals(indexInfo.name) : indexInfo.name != null) return false;
-        return !(parentEntity != null ? !parentEntity.equals(indexInfo.parentEntity) : indexInfo.parentEntity != null);
+        if (!attributes.equals(indexInfo.attributes)) return false;
+        return !(name != null ? !name.equals(indexInfo.name) : indexInfo.name != null) && !(parentEntity != null ? !parentEntity.equals(indexInfo.parentEntity) : indexInfo.parentEntity != null);
 
     }
 
@@ -70,7 +54,7 @@ public class IndexInfo {
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (parentEntity != null ? parentEntity.hashCode() : 0);
-        result = 31 * result + (attributes != null ? attributes.hashCode() : 0);
+        result = 31 * result + (attributes.hashCode());
         result = 31 * result + (isUnique ? 1 : 0);
         return result;
     }
