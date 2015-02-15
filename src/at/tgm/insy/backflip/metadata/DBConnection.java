@@ -161,4 +161,5 @@ public class DBConnection extends DBStaticFields {
             System.out.println("Could not read information from connection: " + e.getMessage());
         }
     }
+
 }

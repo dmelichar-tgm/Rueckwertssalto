@@ -184,10 +184,12 @@ public class EEROutput implements Output {
             Runtime rt = Runtime.getRuntime();
             Process proc = rt.exec(executable + " -Tpdf -o " + output + " " + input);
             int exitVal = proc.waitFor();
-            System.out.println(executable + " -Tpdf -o " + output + " " + input);
+
             if (exitVal == 1) {
                 System.out.println("Conversion finished..");
+                System.out.println("Stored files in.. " + controller.getOutputDirectory());
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

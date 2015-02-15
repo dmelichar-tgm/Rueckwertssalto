@@ -12,11 +12,9 @@ import at.tgm.insy.backflip.output.OutputController;
 public class Main {
 
     public static void main(String[] args) {
-        try {
+        if (!ConfigUtil.hasBeenCreated) {
             ConfigUtil.store();
-            new OutputController().init(new CommandLineController(args));
-        } catch(Exception e) {
-            System.out.println("Oh no.. An error!");
         }
+            new OutputController().init(new CommandLineController(args));
     }
 }

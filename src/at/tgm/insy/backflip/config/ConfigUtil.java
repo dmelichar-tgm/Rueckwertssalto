@@ -13,9 +13,10 @@ public class ConfigUtil {
     
     /* ATTRIBUTES WITH DEFAULTS */
     public static String databaseType = "mysql";
-    public static String outputDirectory = "C:\\Users\\Daniel\\Desktop";
+    public static String outputDirectory = System.getProperty("user.home");
     public static String outputType = "eer";
-    public static String graphvizBinPath = "D:\\Graphviz2.38\\bin";
+    public static String graphvizBinPath = System.getProperty("user.dir");
+    public static boolean hasBeenCreated = false;
 
     /* METHODS */
 
@@ -75,6 +76,7 @@ public class ConfigUtil {
             if (output != null) {
                 try {
                     output.close();
+                    hasBeenCreated = true;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
