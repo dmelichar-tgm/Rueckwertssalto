@@ -1,3 +1,184 @@
+commit 9ea862e79573ec69ee788b0b3499d2146b28338f
+Author: Daniel Melichar <dmelichar@student.tgm.ac.at>
+Date:   Sun Feb 15 22:34:05 2015 +0100
+
+    Final (kinda)
+
+ README.md                                          |  97 +++-
+ config.properties                                  |   6 +-
+ "doc/R\303\274ckwertssalto.docx"                   | Bin 448359 -> 450300 bytes
+ "doc/R\303\274ckwertssalto.pdf"                    | Bin 528680 -> 540829 bytes
+ src/at/tgm/insy/backflip/Main.java                 |   6 +-
+ src/at/tgm/insy/backflip/config/ConfigUtil.java    |   6 +-
+ .../tgm/insy/backflip/metadata/DBConnection.java   |   1 +
+ src/at/tgm/insy/backflip/output/EEROutput.java     |   4 +-
+ src/at/tgm/insy/theexporter/Main.java              |  19 -
+ .../theexporter/cli/CommandLineController.java     | 538 ---------------------
+ .../insy/theexporter/connection/Connection.java    | 131 -----
+ .../theexporter/connection/ConnectionFactory.java  |  37 --
+ .../theexporter/connection/MySQLConnection.java    |  33 --
+ .../tgm/insy/theexporter/output/ConsoleOutput.java |  50 --
+ src/at/tgm/insy/theexporter/output/FileOutput.java |  62 ---
+ .../insy/theexporter/output/OutputController.java  |  88 ----
+ .../test/CommandLineControllerTest.java            | 103 ----
+ 17 files changed, 108 insertions(+), 1073 deletions(-)
+
+commit a360f7f8c17e425d376be62a917d626650039b2c
+Author: Daniel Melichar <dmelichar@student.tgm.ac.at>
+Date:   Sat Feb 14 18:31:08 2015 +0100
+
+    Added better error messages
+    Added comments
+    Generated javadoc
+
+ .idea/misc.xml                                     |   4 +-
+ config.properties                                  |   2 +-
+ doc/javadoc/allclasses-frame.html                  |  26 -
+ doc/javadoc/allclasses-noframe.html                |  26 -
+ doc/javadoc/at/tgm/insy/theexporter/Main.html      | 278 ------
+ .../theexporter/cli/CommandLineController.html     | 991 ---------------------
+ .../at/tgm/insy/theexporter/cli/package-frame.html |  20 -
+ .../tgm/insy/theexporter/cli/package-summary.html  | 142 ---
+ .../at/tgm/insy/theexporter/cli/package-tree.html  | 135 ---
+ .../insy/theexporter/connection/Connection.html    | 435 ---------
+ .../theexporter/connection/ConnectionFactory.html  | 287 ------
+ .../theexporter/connection/MySQLConnection.html    | 299 -------
+ .../insy/theexporter/connection/package-frame.html |  22 -
+ .../theexporter/connection/package-summary.html    | 155 ----
+ .../insy/theexporter/connection/package-tree.html  | 140 ---
+ .../tgm/insy/theexporter/output/ConsoleOutput.html | 245 -----
+ .../at/tgm/insy/theexporter/output/FileOutput.html | 248 ------
+ .../insy/theexporter/output/OutputController.html  | 348 --------
+ .../tgm/insy/theexporter/output/package-frame.html |  22 -
+ .../insy/theexporter/output/package-summary.html   | 155 ----
+ .../tgm/insy/theexporter/output/package-tree.html  | 137 ---
+ .../at/tgm/insy/theexporter/package-frame.html     |  20 -
+ .../at/tgm/insy/theexporter/package-summary.html   | 142 ---
+ .../at/tgm/insy/theexporter/package-tree.html      | 135 ---
+ doc/javadoc/constant-values.html                   | 122 ---
+ doc/javadoc/deprecated-list.html                   | 122 ---
+ doc/javadoc/help-doc.html                          | 223 -----
+ doc/javadoc/index-files/index-1.html               | 135 ---
+ doc/javadoc/index-files/index-10.html              | 143 ---
+ doc/javadoc/index-files/index-11.html              | 127 ---
+ doc/javadoc/index-files/index-12.html              | 141 ---
+ doc/javadoc/index-files/index-13.html              | 127 ---
+ doc/javadoc/index-files/index-14.html              | 127 ---
+ doc/javadoc/index-files/index-2.html               | 215 -----
+ doc/javadoc/index-files/index-3.html               | 184 ----
+ doc/javadoc/index-files/index-4.html               | 129 ---
+ doc/javadoc/index-files/index-5.html               | 127 ---
+ doc/javadoc/index-files/index-6.html               | 135 ---
+ doc/javadoc/index-files/index-7.html               | 151 ----
+ doc/javadoc/index-files/index-8.html               | 127 ---
+ doc/javadoc/index-files/index-9.html               | 143 ---
+ doc/javadoc/index.html                             |  74 --
+ doc/javadoc/overview-frame.html                    |  24 -
+ doc/javadoc/overview-summary.html                  | 145 ---
+ doc/javadoc/overview-tree.html                     | 148 ---
+ doc/javadoc/package-list                           |   4 -
+ doc/javadoc/script.js                              |  30 -
+ doc/javadoc/stylesheet.css                         | 574 ------------
+ src/at/tgm/insy/backflip/Main.java                 |   8 +-
+ .../insy/backflip/cli/CommandLineController.java   |   4 +-
+ src/at/tgm/insy/backflip/config/ConfigUtil.java    |  13 +-
+ src/at/tgm/insy/backflip/config/package-info.java  |   6 +
+ .../backflip/connection/AbstractConnection.java    |   9 +-
+ .../tgm/insy/backflip/metadata/DBConnection.java   |  73 +-
+ src/at/tgm/insy/backflip/metadata/DBReader.java    |  54 +-
+ .../tgm/insy/backflip/metadata/DBStaticFields.java |   1 +
+ src/at/tgm/insy/backflip/model/AttributeInfo.java  |   1 +
+ src/at/tgm/insy/backflip/model/ConnectionInfo.java |   1 +
+ src/at/tgm/insy/backflip/model/DatabaseTypes.java  |   1 +
+ src/at/tgm/insy/backflip/model/DatatypeInfo.java   |   1 +
+ .../insy/backflip/model/ERRelationshipInfo.java    |   1 +
+ src/at/tgm/insy/backflip/model/IndexInfo.java      |   1 +
+ .../tgm/insy/backflip/model/RelationshipInfo.java  |   1 +
+ .../backflip/model/SubtypeRelationshipInfo.java    |   1 +
+ src/at/tgm/insy/backflip/model/TableInfo.java      |   1 +
+ src/at/tgm/insy/backflip/output/EEROutput.java     | 124 ++-
+ src/at/tgm/insy/backflip/output/Output.java        |  10 +
+ .../tgm/insy/backflip/output/OutputController.java |  24 +-
+ src/at/tgm/insy/backflip/output/OutputFactory.java |  23 -
+ src/at/tgm/insy/backflip/output/RMOutput.java      |  13 +-
+ 70 files changed, 301 insertions(+), 7961 deletions(-)
+
+commit 22c86e7b919ad3b45647a1340a6f0edf21a18988
+Author: Daniel Melichar <dmelichar@student.tgm.ac.at>
+Date:   Thu Feb 12 09:28:34 2015 +0100
+
+    Added basic functionality for eer output. (prints tables in pdf, missing relationships etc)
+
+ config.properties                                  |   4 ++--
+ "doc/R\303\274ckwertssalto.docx"                   | Bin 91594 -> 448359 bytes
+ .../insy/backflip/cli/CommandLineController.java   |  11 +---------
+ src/at/tgm/insy/backflip/output/EEROutput.java     |  24 ++++++++++++++-------
+ .../tgm/insy/backflip/output/OutputController.java |  15 ++++++++-----
+ src/at/tgm/insy/backflip/output/RMOutput.java      |   2 +-
+ .../insy/backflip/prototype/Diagram_Prototype.java |   4 ++--
+ 7 files changed, 32 insertions(+), 28 deletions(-)
+
+commit c778f5bd60b6ea66928b0cd8fb225ba359b09453
+Author: Daniel Melichar <dmelichar@student.tgm.ac.at>
+Date:   Thu Feb 12 00:46:50 2015 +0100
+
+    Updated Documentation and added some files (Javadoc is not finished)
+
+ doc/FunktionenTabelle.xlsx                         | Bin 11962 -> 12043 bytes
+ doc/Klassendiagram.png                             | Bin 0 -> 320296 bytes
+ "doc/R\303\274ckwertssalto.pdf"                    | Bin 0 -> 528680 bytes
+ doc/javadoc/allclasses-frame.html                  |  26 +
+ doc/javadoc/allclasses-noframe.html                |  26 +
+ doc/javadoc/at/tgm/insy/theexporter/Main.html      | 278 ++++++
+ .../theexporter/cli/CommandLineController.html     | 991 +++++++++++++++++++++
+ .../at/tgm/insy/theexporter/cli/package-frame.html |  20 +
+ .../tgm/insy/theexporter/cli/package-summary.html  | 142 +++
+ .../at/tgm/insy/theexporter/cli/package-tree.html  | 135 +++
+ .../insy/theexporter/connection/Connection.html    | 435 +++++++++
+ .../theexporter/connection/ConnectionFactory.html  | 287 ++++++
+ .../theexporter/connection/MySQLConnection.html    | 299 +++++++
+ .../insy/theexporter/connection/package-frame.html |  22 +
+ .../theexporter/connection/package-summary.html    | 155 ++++
+ .../insy/theexporter/connection/package-tree.html  | 140 +++
+ .../tgm/insy/theexporter/output/ConsoleOutput.html | 245 +++++
+ .../at/tgm/insy/theexporter/output/FileOutput.html | 248 ++++++
+ .../insy/theexporter/output/OutputController.html  | 348 ++++++++
+ .../tgm/insy/theexporter/output/package-frame.html |  22 +
+ .../insy/theexporter/output/package-summary.html   | 155 ++++
+ .../tgm/insy/theexporter/output/package-tree.html  | 137 +++
+ .../at/tgm/insy/theexporter/package-frame.html     |  20 +
+ .../at/tgm/insy/theexporter/package-summary.html   | 142 +++
+ .../at/tgm/insy/theexporter/package-tree.html      | 135 +++
+ doc/javadoc/constant-values.html                   | 122 +++
+ doc/javadoc/deprecated-list.html                   | 122 +++
+ doc/javadoc/help-doc.html                          | 223 +++++
+ doc/javadoc/index-files/index-1.html               | 135 +++
+ doc/javadoc/index-files/index-10.html              | 143 +++
+ doc/javadoc/index-files/index-11.html              | 127 +++
+ doc/javadoc/index-files/index-12.html              | 141 +++
+ doc/javadoc/index-files/index-13.html              | 127 +++
+ doc/javadoc/index-files/index-14.html              | 127 +++
+ doc/javadoc/index-files/index-2.html               | 215 +++++
+ doc/javadoc/index-files/index-3.html               | 184 ++++
+ doc/javadoc/index-files/index-4.html               | 129 +++
+ doc/javadoc/index-files/index-5.html               | 127 +++
+ doc/javadoc/index-files/index-6.html               | 135 +++
+ doc/javadoc/index-files/index-7.html               | 151 ++++
+ doc/javadoc/index-files/index-8.html               | 127 +++
+ doc/javadoc/index-files/index-9.html               | 143 +++
+ doc/javadoc/index.html                             |  74 ++
+ doc/javadoc/overview-frame.html                    |  24 +
+ doc/javadoc/overview-summary.html                  | 145 +++
+ doc/javadoc/overview-tree.html                     | 148 +++
+ doc/javadoc/package-list                           |   4 +
+ doc/javadoc/script.js                              |  30 +
+ doc/javadoc/stylesheet.css                         | 574 ++++++++++++
+ doc/samples/sampleDOT.dot                          |  32 +
+ doc/samples/sampleSQL.sql                          |  88 ++
+ doc/samples/sampleSQLDiagram.PNG                   | Bin 0 -> 69708 bytes
+ repo.log                                           | 392 ++++++++
+ 53 files changed, 8397 insertions(+)
+
 commit 3f149a8447e2f201992a3c4c1f47324bef8533ea
 Merge: ac9e54a 55bc1dc
 Author: Tharnawn <danielmelichar0905@gmail.com>
