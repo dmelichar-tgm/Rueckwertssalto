@@ -28,7 +28,7 @@ public class CommandLineController {
     private String database = "";
     
     /* PROPERTIES FILE */
-    private String graphvizBinPath = "";
+    private String graphvizNeatoPath = "";
     private String outputDirectory = "";
     private String outputType = "";
     private DatabaseTypes databaseType = null;
@@ -299,16 +299,16 @@ public class CommandLineController {
                 } else {
                     this.outputType = "rm";
                 }
-                
-                // graphvizbinpath
-                String graphvizbinpath = ConfigUtil.graphvizBinPath;
-                if (graphvizbinpath.length() > 0) {
-                    this.graphvizBinPath = graphvizbinpath;
+
+                // graphvizNeatoPath
+                String graphvizNeatoPath = ConfigUtil.graphvizNeatoPath;
+                if (graphvizNeatoPath.length() > 0) {
+                    this.graphvizNeatoPath = graphvizNeatoPath;
                 } else {
                     if (outputType.equalsIgnoreCase("rm")) {
-                        this.graphvizBinPath = "";
+                        this.graphvizNeatoPath = "";
                     } else if (outputType.equalsIgnoreCase("eer")) {
-                        throw new IllegalArgumentException("Please add the path to your graphviz's installation's bin path to the properties file.");
+                        throw new IllegalArgumentException("Please add the path to your neato file to the properties.");
                     }
                 }
                 
@@ -344,8 +344,8 @@ public class CommandLineController {
         return connectionInfo;
     }
 
-    public String getGraphvizBinPath() {
-        return graphvizBinPath;
+    public String getGraphvizNeatoPath() {
+        return graphvizNeatoPath;
     }
 
     public String getOutputDirectory() {

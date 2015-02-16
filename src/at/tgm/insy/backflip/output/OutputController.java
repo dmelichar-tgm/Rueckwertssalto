@@ -12,7 +12,7 @@ public class OutputController {
     
     private CommandLineController commandLineController;
     private String outputDirectory;
-    private String graphvizBinPath;
+    private String graphvizNeatoPath;
 
     /**
      * Initiation method of the controller.
@@ -23,7 +23,7 @@ public class OutputController {
     public void init(CommandLineController commandLineController) {
         this.commandLineController = commandLineController;
         this.outputDirectory = this.commandLineController.getOutputDirectory();
-        this.graphvizBinPath = this.commandLineController.getGraphvizBinPath();
+        this.graphvizNeatoPath = this.commandLineController.getGraphvizNeatoPath();
         AbstractConnection connection = createConnection();
 
         if (commandLineController.getOutputType().equalsIgnoreCase("rm")) {
@@ -58,7 +58,9 @@ public class OutputController {
     /* GETTER & SETTER*/
     
     public String getOutputDirectory() {return this.outputDirectory;}
-    
-    public String getGraphvizBinPath() {return this.graphvizBinPath;}
+
+    public String getGraphvizNeatoPath() {
+        return this.graphvizNeatoPath;
+    }
     
 }
