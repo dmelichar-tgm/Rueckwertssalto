@@ -45,8 +45,8 @@ Die Extraktion der Metadaten aus der DB muss mit Java und JDBC erfolgen.
 
 Voraussetzungen
 -------------
-Die Applikation ist basierend auf [Graphviz](http://graphviz.org/ "Graphviz"). Notwendigerweise muss Graphviz auf dem System installiert sein, um die Applikation aus zu führen. 
-In der Applikation selbst befindet sich (nach erstmaligem Aufruf, oder durch selbst Erstellung) ein *config.properties* File in welchem der Graphviz bin-Ordner Pfad angegeben werden muss.
+Die Applikation ist basierend auf [Graphviz](http://graphviz.org/ "Graphviz"), daher muss Graphviz gedownloaded werden bevor die Applikation ausführbar ist.
+Der einfachste Weg, um die Applikation auszüfuhren, ist in dem man den Graphviz Ordner sowie das JAR-File in einem Ordner hat.
 
 Argumente
 -------------
