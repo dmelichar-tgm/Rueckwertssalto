@@ -34,7 +34,7 @@ public class RMOutput implements Output {
         try {
             tables = dbReader.getTables(null, null);
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Error while reading tables from database: " + e.getMessage());
         } finally {
             System.out.println("Reading metadata..");
         }
@@ -93,9 +93,9 @@ public class RMOutput implements Output {
             os.close();
             dbReader.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Error while creating output file:" + e.getMessage());
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("SQL-Error while creating output file: " + e.getMessage());
         }
     }
 

@@ -38,7 +38,7 @@ public class EEROutput implements Output {
         try {
             tables = dbReader.getTables(null, null);
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Error while loading tables from database: " + e.getMessage());
         } finally {
             System.out.println("Reading metadata..");
         }
@@ -58,6 +58,7 @@ public class EEROutput implements Output {
             // START
             stringBuilder.append("digraph G {\n");
             stringBuilder.append(createIndent(1)).append("overlap=false\n");
+            stringBuilder.append(createIndent(1)).append("splines=ortho\n");
             
             // TABLES
             tables = dbReader.getTables(null, null);
@@ -161,9 +162,9 @@ public class EEROutput implements Output {
             os.print(stringBuilder);
             dbReader.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Error while creating the output file:" + e.getMessage());
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("SQL-Error while creating the output file:" + e.getMessage());
         } finally {
             if (os != null) {
                 os.close();
@@ -177,7 +178,7 @@ public class EEROutput implements Output {
 
     private void generateGraphFromDot() {
         try {
-            String executable = controller.getGraphvizBinPath() + "\\neato.exe";
+            String executable = controller.getGraphvizNeatoPath();
             String output = "\"" + controller.getOutputDirectory() + ".pdf" + "\"";
             String input = controller.getOutputDirectory() + ".dot";
             
@@ -191,9 +192,9 @@ public class EEROutput implements Output {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error while converting to pdf:" + e.getMessage());
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.out.println("Error while converting to pdf:" + e.getMessage());
         }
     }
     

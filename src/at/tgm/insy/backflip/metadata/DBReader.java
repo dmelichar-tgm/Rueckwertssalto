@@ -241,7 +241,7 @@ public class DBReader extends DBStaticFields {
         try {
             return connection.getMetaData().getPrimaryKeys(catalog, schema, table);
         } catch (SQLException e) {
-            e.printStackTrace(); // ToDo
+            System.out.println("Error while getting primary keys" + e.getMessage());
             return null;
         }
     }

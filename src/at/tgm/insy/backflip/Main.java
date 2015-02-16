@@ -15,6 +15,6 @@ public class Main {
         if (!ConfigUtil.hasBeenCreated) {
             ConfigUtil.store();
         }
-            new OutputController().init(new CommandLineController(args));
+        new OutputController().init(new CommandLineController(args));
     }
 }
